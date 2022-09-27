@@ -1,15 +1,9 @@
-import tkinter
-from Student import Student
+import Student
 
-#Parti stands for Participation (in events)
+# Jeff = Student.Student("jeff", 12, 10, 4.1, 30, 2)
+# partiInput = int(input("How many events did Jeff participate in? "))
+student = Student.Student(Student.createNewStudent())
 
-def addParti(currentParti, newParti):
-    totalParti = currentParti + newParti
-    return totalParti
+print(student.name)
 
-student1 = Student("bob", 14, 9, 3.9, 22, 4)
-
-print(addParti(student1.parti, 3))
-
-
-
+student.addParti()
