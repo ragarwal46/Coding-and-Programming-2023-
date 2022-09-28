@@ -1,5 +1,10 @@
+import random
+
+
 class Student:
-    #parti is short for participation
+    import random
+    # parti is short for participation
+    # This will be used to create computer generated students that judge can only see
     def __init__(self, name, age, gradeLvl, GPA, points, parti):
         self.name = name
         self.age = age
@@ -8,39 +13,33 @@ class Student:
         self.points = points
         self.parti = parti
 
-      # for name, we have an array and randomly generate a number which will be called from the array.  
-    # for age, use random number gen to generate an age between 14 to 18 
-    # for gradeLvl, use random number generator from 1-12 and age to determine gradeLVL. For example, if age is 14 and random gen chooses 5, then person is in 9th 
-        # but if age is 14 and gen chooses 7 then person is in 10th grade
-    # for GPA, 
-    points = 0 
-    parti = 0
-    
-    def getName(self):
-        return self.name
-    
-    def getAge(self):
-        #will state student's age
-        return self.age
-    
-    def getGPA(self):
-        #will state student's grade 
-        return self.GPA
+    # for name, we have an array and randomly generate a number which will be called from the array. for age,
+    # use random number gen to generate an age between 14 and 18 for gradeLvl, use random number generator from 1-12
+    # and age to determine gradeLVL. For example, if age is 14 and random gen chooses 5, then person is in 9th but if
+    # age is 14 and gen chooses 7 then person is in 10th grade for GPA
 
-    def getGradeLvl(self):
-        #will state student's grade Level 
-        return self.gradeLvl
-
-    def getPoints(self):
-        #will state how many points student has accumulated
-        return self.points
-    
-    def getparti(self):
-        #will state how many times student has participated
-        return self.parti
-    
-    def addParti(self, parti):
-        parti += 1
-        return print(parti)
+    # Allows user to add number of events participated in
+    def addParti(self, parti, newParti):
+        totalParti = self.parti + newParti
+        return totalParti
 
 
+def createNewStudent():
+    studentListOfNames = ["James", "Mary", "Robert", "Patricia", "John", "Jennifer", "Michael", "Linda",
+                          "David", "Elizabeth", "William", "Barbara", "Richard", "Susan", "Joseph", "Jessica",
+                          "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Lisa", "Daniel", "Nancy"]
+
+    # This will be for when judges input a new student
+    studentName = random.choice(studentListOfNames)
+    studentAge = random.randint(168, 216)
+    if studentAge >= 168 & studentAge <= 180:
+        studentGrade = 9
+    elif studentAge >= 181 & studentAge <= 192:
+        studentGrade = 10
+    elif studentAge >= 193 & studentAge <= 204:
+        studentGrade = 11
+    else:
+        studentGrade = 12
+
+    studentGPA = round(random.uniform(2.5, 4.0), 2)
+    return studentName, studentAge, studentGrade, studentGPA, 0, 0
