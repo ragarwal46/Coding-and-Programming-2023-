@@ -1,22 +1,20 @@
-import tkinter
-from Student import Student
+import Student
 import tkinter
 import tkinter.messagebox
 import customtkinter
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
 class App(customtkinter.CTk):
-
     WIDTH = 780
     HEIGHT = 520
 
     def __init__(self):
         super().__init__()
 
-        self.title("Test Product")
+        self.title("Alliance Academy for Innovation Student Monitoring Page")
         self.geometry(f"{App.WIDTH}x{App.HEIGHT}")
         self.protocol("WM_DELETE_WINDOW", self.on_closing)  # call .on_closing() when app gets closed
 
@@ -37,29 +35,29 @@ class App(customtkinter.CTk):
         # ============ frame_left ============
 
         # configure grid layout (1x11)
-        self.frame_left.grid_rowconfigure(0, minsize=10)   # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(0, minsize=10)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(5, weight=1)  # empty row as spacing
-        self.frame_left.grid_rowconfigure(8, minsize=20)    # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
         self.label_1 = customtkinter.CTkLabel(master=self.frame_left,
-                                              text="CustomTkinter",
+                                              text="Items to Add",
                                               text_font=("Roboto Medium", -16))  # font name and size in px
         self.label_1.grid(row=1, column=0, pady=10, padx=10)
 
         self.button_1 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="CTkButton",
+                                                text="Add Student",
                                                 command=self.button_event)
         self.button_1.grid(row=2, column=0, pady=10, padx=20)
 
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="CTkButton",
+                                                text="Add Participation \n Event",
                                                 command=self.button_event)
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
         self.button_3 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="CTkButton",
-                                                command=self.button_event)
+                                                text="Add Participation \n Event",
+                                                command=self.button_event())
         self.button_3.grid(row=4, column=0, pady=10, padx=20)
 
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
@@ -88,7 +86,7 @@ class App(customtkinter.CTk):
         self.frame_info.columnconfigure(0, weight=1)
 
         self.label_info_1 = customtkinter.CTkLabel(master=self.frame_info,
-                                                   text="               Welcome Teacher         \n" +
+                                                   text="            Welcome Teacher\n" +
                                                         "What would you like to do today?\n",
                                                    height=100,
                                                    corner_radius=6,  # <- custom corner radius
@@ -167,7 +165,6 @@ class App(customtkinter.CTk):
 
         # set default values
         self.optionmenu_1.set("Dark")
-        self.button_3.configure(state="disabled", text="Disabled CTkButton")
         self.combobox_1.set("CTkCombobox")
         self.radio_button_1.select()
         self.slider_1.set(0.2)
