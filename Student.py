@@ -29,12 +29,13 @@ def createNewStudent():
                           "David", "Elizabeth", "William", "Barbara", "Richard", "Susan", "Joseph", "Jessica",
                           "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Lisa", "Daniel", "Nancy"]
 
-    # This will be for when judges input a new student
-    studentListOfLastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", 
-                            "Rodriguez", "Martinez", "Wilson", "Anderson", "Thomas", "Taylor", "Jackson"
-                            "Martin", "Lee", "Perez", "	Thompson", "White", "Harris", "Clark", "Young", 
-                            "Phillips", "Evans", "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins",
-                            "Morgan", "Cooper", "Peterson", "Bailey", "Reed", "Kelly"]
+    studentListOfLastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
+                              "Rodriguez", "Martinez", "Wilson", "Anderson", "Thomas", "Taylor", "Jackson"                                                               "Martin", "Lee",
+                              "Perez", "Thompson", "White", "Harris", "Clark", "Young","Phillips", "Evans",
+                              "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins","Morgan", "Cooper",
+                              "Peterson", "Bailey", "Reed", "Kelly", "Bennet", "Hughes", "Price", "Myers",
+                              "Foster", "Jimenez"]
+
 
     studentFName = random.choice(studentListOfFirstNames)
     studentLName = random.choice(studentListOfLastNames)
