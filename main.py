@@ -8,14 +8,3 @@ import tkinter.font as font
 #print(Jeff.parti + partiInput)
 
 
-
-window = tk.Tk()
-window.title("Coding and Programing 2023")
-
-generalFont = font.Font(family="sans-serif",)
-
-createStudentbtn = tk.Button(window, text="Add a New Student", border=3, borderwidth=10, width=15, height=2, font=generalFont)
-
-createStudentbtn.pack()
-
-window.mainloop()
