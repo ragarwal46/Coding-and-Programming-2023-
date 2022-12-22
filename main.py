@@ -1,5 +1,8 @@
+from doctest import master
+from logging import root
 import Student
-import tkinter
+import tkinter as tk
+from tkinter import ttk
 import tkinter.messagebox
 import customtkinter
 
@@ -7,16 +10,52 @@ customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-class App(customtkinter.CTk):
+
+class tkinterApp(tk.Tk):
+     
+    # __init__ function for class tkinterApp
+    def __init__(self, *args, **kwargs):
+         
+        # __init__ function for class Tk
+        tk.Tk.__init__(self, *args, **kwargs)
+         
+        # creating a container
+        container = tk.Frame(self) 
+        container.pack(side = "top", fill = "both", expand = True)
+  
+        container.grid_rowconfigure(0, weight = 1)
+        container.grid_columnconfigure(0, weight = 1)
+  
+        # initializing frames to an empty array
+        self.frames = {} 
+  
+        # iterating through a tuple consisting
+        # of the different page layouts
+        for F in (startPage, Page1, Page2):
+  
+            frame = F(container, self)
+  
+            # initializing frame of that object from
+            # startpage, page1, page2 respectively with
+            # for loop
+            self.frames[F] = frame
+  
+            frame.grid(row = 0, column = 0, sticky ="nsew")
+  
+        self.show_frame(startPage)
+        
+    def show_frame(self, cont):  
+        frame = self.frames[cont]  
+        frame.tkraise()  
+
+
+
+class startPage(tk.Frame):
     WIDTH = 780
     HEIGHT = 520
 
-    def __init__(self):
-        super().__init__()
-
-        self.title("Alliance Academy for Innovation Student Monitoring Page")
-        self.geometry(f"{App.WIDTH}x{App.HEIGHT}")
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)  # call .on_closing() when app gets closed
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
 
         # ============ create two frames ============
 
@@ -41,24 +80,20 @@ class App(customtkinter.CTk):
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
         self.label_1 = customtkinter.CTkLabel(master=self.frame_left,
-                                              text="Items to Add",
+                                              text="Actions",
                                               text_font=("Roboto Medium", -16))  # font name and size in px
         self.label_1.grid(row=1, column=0, pady=10, padx=10)
-
+        
         self.button_1 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Add Student",
-                                                command=self.button_event)
-        self.button_1.grid(row=2, column=0, pady=10, padx=20)
+                                                text="Student",
+                                                command=lambda: controller.show_frame(Page1))
+        self.button_1.grid(row=2, column=0, pady=10, padx=50)
+        
 
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Add Participation \n Event",
-                                                command=self.button_event)
+                                                text="Event",
+                                                command=lambda: controller.show_frame(Page2))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
-
-        self.button_3 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Add Participation \n Event",
-                                                command=self.button_event())
-        self.button_3.grid(row=4, column=0, pady=10, padx=20)
 
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
         self.label_mode.grid(row=9, column=0, pady=0, padx=20, sticky="w")
@@ -175,19 +210,74 @@ class App(customtkinter.CTk):
         self.check_box_1.configure(state=tkinter.DISABLED, text="CheckBox disabled")
         self.check_box_2.select()
 
+    def new_method(self):
+        tk.Tk.title
+
     def button_event(self):
         print("Button pressed")
 
     def change_appearance_mode(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)
 
-    def on_closing(self, event=0):
+    
+
+class Page1(tk.Frame):
+     
+    def __init__(self, parent, controller):
+         
+        tk.Frame.__init__(self, parent)
+        label = ttk.Label(self, text ="Page 1", font = ("Roboto Medium", -16))
+        label.grid(row = 0, column = 4, padx = 10, pady = 10)
+  
+        # button to show frame 2 with text
+        # layout2
+        button1 = ttk.Button(self, text ="StartPage",
+                            command = lambda : controller.show_frame(startPage))
+     
+        # putting the button in its place
+        # by using grid
+        button1.grid(row = 1, column = 1, padx = 10, pady = 10)
+  
+        # button to show frame 2 with text
+        # layout2
+        button2 = ttk.Button(self, text ="Page 2",
+                            command = lambda : controller.show_frame(Page2))
+     
+        # putting the button in its place by
+        # using grid
+        button2.grid(row = 2, column = 1, padx = 10, pady = 10)
+
+
+class Page2(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = ttk.Label(self, text ="Page 2", font = ("Roboto Medium", -16))
+        label.grid(row = 0, column = 4, padx = 10, pady = 10)
+  
+        # button to show frame 2 with text
+        # layout2
+        button1 = ttk.Button(self, text ="Page 1",
+                            command = lambda : controller.show_frame(Page1))
+     
+        # putting the button in its place by
+        # using grid
+        button1.grid(row = 1, column = 1, padx = 10, pady = 10)
+  
+        # button to show frame 3 with text
+        # layout3
+        button2 = ttk.Button(self, text ="Startpage",
+                            command = lambda : controller.show_frame(startPage))
+     
+        # putting the button in its place by
+        # using grid
+        button2.grid(row = 2, column = 1, padx = 10, pady = 10)
+
+
+def on_closing(self, event=0):
         self.destroy()
 
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+app = tkinterApp()
+app.mainloop()
 
 
 
