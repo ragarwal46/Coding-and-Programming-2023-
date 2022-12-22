@@ -25,29 +25,34 @@ class Student:
 
 
 def createNewStudent():
-    studentListOfFirstNames = ["James", "Mary", "Robert", "Patricia", "John", "Jennifer", "Michael", "Linda",
-                          "David", "Elizabeth", "William", "Barbara", "Richard", "Susan", "Joseph", "Jessica",
-                          "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Lisa", "Daniel", "Nancy"]
+    studentListOfFirstNames = ["Liam", "Noah", "Oliver", "William", "Elijah", "James", "Benjamin", "Lucas", "Mason", "Logan",
+                                "Alexander", "Ethan", "Michael", "Daniel", "Matthew", "Aiden", 
+                                "Henry", "Jackson", "Sebastian", "Aiden",
+                                "Samuel", "David", "Joseph", "Carter" "Emma", "Olivia", "Ava", "Isabella", 
+                                "Sophia", "Mia", "Charlotte", "Amelia", "Harper", "Evelyn",
+                                "Abigail", "Emily", "Elizabeth", "Mila", "Ella", "Avery", "Sofia", "Camila", 
+                                "Aria", "Scarlett",  "Victoria", "Madeline", "Naomi", "Lauren", "Gianna"]
 
     studentListOfLastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
-                              "Rodriguez", "Martinez", "Wilson", "Anderson", "Thomas", "Taylor", "Jackson"                                                               "Martin", "Lee",
-                              "Perez", "Thompson", "White", "Harris", "Clark", "Young","Phillips", "Evans",
-                              "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins","Morgan", "Cooper",
-                              "Peterson", "Bailey", "Reed", "Kelly", "Bennet", "Hughes", "Price", "Myers",
-                              "Foster", "Jimenez"]
+                              "Rodriguez", "Martinez", "Wilson", "Anderson", "Thomas", "Taylor", "Jackson", 
+                              "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Clark", "Young",
+                              "Phillips", "Evans","Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins",
+                              "Morgan", "Cooper","Peterson", "Bailey", "Reed", "Kelly", "Bennet", "Hughes", 
+                              "Price", "Myers","Foster", "Jimenez"]
 
 
     studentFName = random.choice(studentListOfFirstNames)
     studentLName = random.choice(studentListOfLastNames)
-    studentAge = random.randint(168, 216)
-    if studentAge >= 168 & studentAge <= 180:
+    studentAge = random.randint(14, 18)
+    if studentAge >= 14 and studentAge < 15: 
         studentGrade = 9
-    elif studentAge >= 181 & studentAge <= 192:
+    elif studentAge >= 15 and studentAge < 16:
         studentGrade = 10
-    elif studentAge >= 193 & studentAge <= 204:
+    elif studentAge >= 16 and studentAge <= 17:
         studentGrade = 11
     else:
         studentGrade = 12
 
     studentGPA = round(random.uniform(2.5, 4.0), 2)
     return studentFName, studentLName, studentAge, studentGrade, studentGPA, 0, 0
+
