@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
 import customtkinter
+from tkinter import *
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -83,18 +84,23 @@ class startPage(tk.Frame):
                                               text="Actions",
                                               text_font=("Roboto Medium", -16))  # font name and size in px
         self.label_1.grid(row=1, column=0, pady=10, padx=10)
-        
-        self.button_1 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Student",
-                                                command=lambda: controller.show_frame(Page1))
-        self.button_1.grid(row=2, column=0, pady=10, padx=50)
-        
 
+        def show_page1(selected_value):
+            if selected_value == "Add Student":
+                controller.show_frame(Page1)
+            elif selected_value == "View Student":
+                controller.show_frame(startPage)
+
+        self.combobox = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.combobox.grid(row=2, column=0, pady=10, padx=50)
+        
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Event",
                                                 command=lambda: controller.show_frame(Page2))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
+        
+        
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
         self.label_mode.grid(row=9, column=0, pady=0, padx=20, sticky="w")
 
@@ -201,6 +207,7 @@ class startPage(tk.Frame):
         # set default values
         self.optionmenu_1.set("Dark")
         self.combobox_1.set("CTkCombobox")
+        self.combobox.set("Student")
         self.radio_button_1.select()
         self.slider_1.set(0.2)
         self.slider_2.set(0.7)
@@ -226,26 +233,60 @@ class Page1(tk.Frame):
     def __init__(self, parent, controller):
          
         tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text ="Page 1", font = ("Roboto Medium", -16))
-        label.grid(row = 0, column = 4, padx = 10, pady = 10)
   
-        # button to show frame 2 with text
-        # layout2
-        button1 = ttk.Button(self, text ="StartPage",
-                            command = lambda : controller.show_frame(startPage))
-     
-        # putting the button in its place
-        # by using grid
-        button1.grid(row = 1, column = 1, padx = 10, pady = 10)
-  
-        # button to show frame 2 with text
-        # layout2
-        button2 = ttk.Button(self, text ="Page 2",
-                            command = lambda : controller.show_frame(Page2))
-     
-        # putting the button in its place by
-        # using grid
-        button2.grid(row = 2, column = 1, padx = 10, pady = 10)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_left = customtkinter.CTkFrame(master=self,
+                                                 width=180,
+                                                 corner_radius=0)
+        self.frame_left.grid(row=0, column=0, sticky="nswe")
+
+        self.frame_right = customtkinter.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+        # ============ frame_left ============
+
+        # configure grid layout (1x11)
+        self.frame_left.grid_rowconfigure(0, minsize=10)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(5, weight=1)  # empty row as spacing
+        self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
+
+        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
+        self.frame_right.rowconfigure(7, weight=10)
+        self.frame_right.columnconfigure((0, 1, 2), weight=1)
+        self.frame_right.columnconfigure(3, weight=0)
+        
+        self.label_1 = customtkinter.CTkLabel(master=self.frame_left,
+                                              text="Actions",
+                                              text_font=("Roboto Medium", -16))  # font name and size in px
+        self.label_1.grid(row=1, column=0, pady=10, padx=10)
+        
+        self.label_2 = customtkinter.CTkLabel(master=self.frame_right, 
+                                              text = "Add Student", 
+                                              text_font=("Roboto Medium", -16))
+        self.label_2.place(relx = 0.5, rely = 0.05, anchor = 'center')
+        
+        def show_page1(selected_value):
+            if selected_value == "Add Student":
+                controller.show_frame(Page1)
+            elif selected_value == "View Student":
+                controller.show_frame(startPage)
+
+        self.combobox = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.combobox.grid(row=2, column=0, pady=10, padx=50)
+        
+        self.button_2 = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Event",
+                                                command=lambda: controller.show_frame(Page2))
+        self.button_2.grid(row=3, column=0, pady=10, padx=20)
+
+        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name')
+        self.fnameEntry.place(relx = 0.08, rely = 0.12)
+
+        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name')
+        self.fnameEntry.place(relx = 0.53, rely = 0.12)
 
 
 class Page2(tk.Frame):
@@ -293,5 +334,3 @@ def addParti(currentParti, newParti):
 #Jeff = Student.Student("jeff", 12, 10, 4.1, 30, 2)
 #partiInput = int(input("How many events did Jeff participate in? "))
 #print(Jeff.parti + partiInput)
-
-
