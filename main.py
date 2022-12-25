@@ -91,8 +91,8 @@ class startPage(tk.Frame):
             elif selected_value == "View Student":
                 controller.show_frame(startPage)
 
-        self.combobox = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
-        self.combobox.grid(row=2, column=0, pady=10, padx=50)
+        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.addstudent.grid(row=2, column=0, pady=10, padx=50)
         
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Event",
@@ -207,7 +207,7 @@ class startPage(tk.Frame):
         # set default values
         self.optionmenu_1.set("Dark")
         self.combobox_1.set("CTkCombobox")
-        self.combobox.set("Student")
+        self.addstudent.set("Student")
         self.radio_button_1.select()
         self.slider_1.set(0.2)
         self.slider_2.set(0.7)
@@ -274,8 +274,8 @@ class Page1(tk.Frame):
             elif selected_value == "View Student":
                 controller.show_frame(startPage)
 
-        self.combobox = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
-        self.combobox.grid(row=2, column=0, pady=10, padx=50)
+        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.addstudent.grid(row=2, column=0, pady=10, padx=50)
         
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Event",
@@ -287,6 +287,24 @@ class Page1(tk.Frame):
 
         self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name')
         self.fnameEntry.place(relx = 0.53, rely = 0.12)
+
+        self.month = customtkinter.CTkComboBox(master=self.frame_right, values=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+        self.month.place(relx = 0.08, rely = 0.3)
+        self.month.set("Month")
+        
+        self.year = customtkinter.CTkComboBox(master=self.frame_right, values = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018", "2019", "2020", "2021", "2022", "2023"] )
+        self.year.place(relx = 0.645, rely = 0.3)
+        self.year.set("Year")
+
+        self.day = customtkinter.CTkComboBox(master=self.frame_right, width = 100, values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"] )
+        self.day.place(relx = 0.4, rely = 0.3)
+        self.day.set("Day")
+
+        self.birthdate = ttk.Label(master=self.frame_right,
+                                              text="Birthdate",
+                                              font=("Roboto Medium", 8),
+                                              background='#ebebeb')
+        self.birthdate.place(relx = 0.08, rely = 0.24)
 
 
 class Page2(tk.Frame):
