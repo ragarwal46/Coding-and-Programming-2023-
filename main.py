@@ -282,21 +282,25 @@ class Page1(tk.Frame):
                                                 command=lambda: controller.show_frame(Page2))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
-        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name')
+        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
         self.fnameEntry.place(relx = 0.08, rely = 0.12)
+        self.name = ttk.Label(master=self.frame_right,
+                                                text="Name",
+                                                font=("Roboto Medium", 8),
+                                                background='#ebebeb')
+        self.name.place(relx = 0.08, rely = 0.06)
+        self.lnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
+        self.lnameEntry.place(relx = 0.53, rely = 0.12)
 
-        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name')
-        self.fnameEntry.place(relx = 0.53, rely = 0.12)
-
-        self.month = customtkinter.CTkComboBox(master=self.frame_right, values=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+        self.month = customtkinter.CTkComboBox(master=self.frame_right, values=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], state='readonly')
         self.month.place(relx = 0.08, rely = 0.3)
         self.month.set("Month")
         
-        self.year = customtkinter.CTkComboBox(master=self.frame_right, values = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018", "2019", "2020", "2021", "2022", "2023"] )
+        self.year = customtkinter.CTkComboBox(master=self.frame_right, values = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018", "2019", "2020", "2021", "2022", "2023"], state='readonly')
         self.year.place(relx = 0.645, rely = 0.3)
         self.year.set("Year")
 
-        self.day = customtkinter.CTkComboBox(master=self.frame_right, width = 100, values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"] )
+        self.day = customtkinter.CTkComboBox(master=self.frame_right, width = 100, values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"], state='readonly' )
         self.day.place(relx = 0.4, rely = 0.3)
         self.day.set("Day")
 
@@ -305,9 +309,28 @@ class Page1(tk.Frame):
                                               font=("Roboto Medium", 8),
                                               background='#ebebeb')
         self.birthdate.place(relx = 0.08, rely = 0.24)
+        
+        self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
+        self.gradelvl.place(relx = 0.08, rely = 0.48)
+        self.gradelvl.set('Grade')
+        self.grade = ttk.Label(master = self.frame_right, text = "Grade",
+                                            font=("Roboto Medium", 8),
+                                            background='#ebebeb')
+        self.grade.place(relx = 0.08, rely = 0.42)
 
+        
+        self.gpa = customtkinter.CTkEntry(master = self.frame_right, width = 100, placeholder_text= 'GPA', text_color='black')
+        self.gpa.place(relx = 0.08, rely = 0.66)
+        self.gpalabel = ttk.Label(master=self.frame_right, 
+                                            text = 'GPA (Unweighted)',
+                                            font=('Roboto Medium', 8),
+                                            background='#ebebeb')
+        self.gpalabel.place(relx = 0.08, rely = 0.6)
 
-class Page2(tk.Frame):
+        self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add')
+        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
+
+class Page2(tk.Frame):      
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text ="Page 2", font = ("Roboto Medium", -16))
