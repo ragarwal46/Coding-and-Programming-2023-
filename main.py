@@ -282,15 +282,15 @@ class Page1(tk.Frame):
                                                 command=lambda: controller.show_frame(Page2))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
-        self.fnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
-        self.fnameEntry.place(relx = 0.08, rely = 0.12)
+        self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
+        self.fname.place(relx = 0.08, rely = 0.12)
         self.name = ttk.Label(master=self.frame_right,
                                                 text="Name",
                                                 font=("Roboto Medium", 8),
                                                 background='#ebebeb')
         self.name.place(relx = 0.08, rely = 0.06)
-        self.lnameEntry = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
-        self.lnameEntry.place(relx = 0.53, rely = 0.12)
+        self.lname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
+        self.lname.place(relx = 0.53, rely = 0.12)
 
         self.month = customtkinter.CTkComboBox(master=self.frame_right, values=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], state='readonly')
         self.month.place(relx = 0.08, rely = 0.3)
@@ -327,7 +327,13 @@ class Page1(tk.Frame):
                                             background='#ebebeb')
         self.gpalabel.place(relx = 0.08, rely = 0.6)
 
-        self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add')
+        #def addstudent():
+         #   if self.year.get() != 'Year':
+          #      year = self.year.get()
+           #     newstudent = Student.Student(self.fname.get(), self.lname.get(), (2023 - int(year)), self.gradelvl.get(), self.gpa.get(), 0, 0)
+            #    controller.show_frame(Page1)
+             #   return newstudent 
+        self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add')#, command= addstudent)
         self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
 
 class Page2(tk.Frame):      
