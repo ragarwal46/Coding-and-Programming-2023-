@@ -6,6 +6,7 @@ from tkinter import ttk
 import tkinter.messagebox
 import customtkinter
 from tkinter import *
+import mysql.connector
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -28,30 +29,30 @@ class tkinterApp(tk.Tk):
         container.grid_columnconfigure(0, weight = 1)
   
         # initializing frames to an empty array
-        self.frames = {} 
+        self.frames = {}
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (startPage, Page1, Page2):
+        for F in (ViewStudent, AddStudent, Event):
   
             frame = F(container, self)
   
             # initializing frame of that object from
-            # startpage, page1, page2 respectively with
+            # ViewStudent, AddStudent, Event respectively with
             # for loop
             self.frames[F] = frame
   
             frame.grid(row = 0, column = 0, sticky ="nsew")
   
-        self.show_frame(startPage)
+        self.show_frame(ViewStudent)
         
     def show_frame(self, cont):  
         frame = self.frames[cont]  
-        frame.tkraise()  
+        frame.tkraise()
 
 
 
-class startPage(tk.Frame):
+class ViewStudent(tk.Frame):
     WIDTH = 780
     HEIGHT = 520
 
@@ -85,18 +86,18 @@ class startPage(tk.Frame):
                                               text_font=("Roboto Medium", -16))  # font name and size in px
         self.label_1.grid(row=1, column=0, pady=10, padx=10)
 
-        def show_page1(selected_value):
+        def show_AddStudent(selected_value):
             if selected_value == "Add Student":
-                controller.show_frame(Page1)
+                controller.show_frame(AddStudent)
             elif selected_value == "View Student":
-                controller.show_frame(startPage)
+                controller.show_frame(ViewStudent)
 
-        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_AddStudent)
         self.addstudent.grid(row=2, column=0, pady=10, padx=50)
         
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Event",
-                                                command=lambda: controller.show_frame(Page2))
+                                                command=lambda: controller.show_frame(Event))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
         
@@ -126,96 +127,36 @@ class startPage(tk.Frame):
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
 
-        self.label_info_1 = customtkinter.CTkLabel(master=self.frame_info,
-                                                   text="            Welcome Teacher\n" +
-                                                        "What would you like to do today?\n",
-                                                   height=100,
-                                                   corner_radius=6,  # <- custom corner radius
-                                                   fg_color=("white", "gray38"),  # <- custom tuple-color
-                                                   justify=tkinter.LEFT)
-        self.label_info_1.grid(column=0, row=0, sticky="nwe", padx=15, pady=15)
 
-        self.progressbar = customtkinter.CTkProgressBar(master=self.frame_info)
-        self.progressbar.grid(row=1, column=0, sticky="ew", padx=15, pady=15)
+        def open_stuent_table():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
 
-        # ============ frame_right ============
+            my_conn = my_connect.cursor()
+            ####### end of connection ####
+            my_conn.execute("SELECT * FROM student limit 0,10")
+            i=0 
+            for student in my_conn: 
+                for j in range(len(student)):
+                    e = Entry(my_w, width=10, fg='blue') 
+                    e.grid(row=i, column=j) 
+                    e.insert(END, student[j])
+                i=i+1
 
-        self.radio_var = tkinter.IntVar(value=0)
+        self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_right,
+                                                text="View Student Table",
+                                                command=open_stuent_table)
+        self.ViewStudentTableButton.place(relx = 0.5, rely = 0.05, anchor = 'center')
 
-        self.label_radio_group = customtkinter.CTkLabel(master=self.frame_right,
-                                                        text="CTkRadioButton Group:")
-        self.label_radio_group.grid(row=0, column=2, columnspan=1, pady=20, padx=10, sticky="")
+    
 
-        self.radio_button_1 = customtkinter.CTkRadioButton(master=self.frame_right,
-                                                           variable=self.radio_var,
-                                                           value=0)
-        self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="n")
+        
 
-        self.radio_button_2 = customtkinter.CTkRadioButton(master=self.frame_right,
-                                                           variable=self.radio_var,
-                                                           value=1)
-        self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="n")
-
-        self.radio_button_3 = customtkinter.CTkRadioButton(master=self.frame_right,
-                                                           variable=self.radio_var,
-                                                           value=2)
-        self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
-
-        self.slider_1 = customtkinter.CTkSlider(master=self.frame_right,
-                                                from_=0,
-                                                to=1,
-                                                number_of_steps=3,
-                                                command=self.progressbar.set)
-        self.slider_1.grid(row=4, column=0, columnspan=2, pady=10, padx=20, sticky="we")
-
-        self.slider_2 = customtkinter.CTkSlider(master=self.frame_right,
-                                                command=self.progressbar.set)
-        self.slider_2.grid(row=5, column=0, columnspan=2, pady=10, padx=20, sticky="we")
-
-        self.switch_1 = customtkinter.CTkSwitch(master=self.frame_right,
-                                                text="CTkSwitch")
-        self.switch_1.grid(row=4, column=2, columnspan=1, pady=10, padx=20, sticky="we")
-
-        self.switch_2 = customtkinter.CTkSwitch(master=self.frame_right,
-                                                text="CTkSwitch")
-        self.switch_2.grid(row=5, column=2, columnspan=1, pady=10, padx=20, sticky="we")
-
-        self.combobox_1 = customtkinter.CTkComboBox(master=self.frame_right,
-                                                    values=["Value 1", "Value 2"])
-        self.combobox_1.grid(row=6, column=2, columnspan=1, pady=10, padx=20, sticky="we")
-
-        self.check_box_1 = customtkinter.CTkCheckBox(master=self.frame_right,
-                                                     text="CTkCheckBox")
-        self.check_box_1.grid(row=6, column=0, pady=10, padx=20, sticky="w")
-
-        self.check_box_2 = customtkinter.CTkCheckBox(master=self.frame_right,
-                                                     text="CTkCheckBox")
-        self.check_box_2.grid(row=6, column=1, pady=10, padx=20, sticky="w")
-
-        self.entry = customtkinter.CTkEntry(master=self.frame_right,
-                                            width=120,
-                                            placeholder_text="CTkEntry")
-        self.entry.grid(row=8, column=0, columnspan=2, pady=20, padx=20, sticky="we")
-
-        self.button_5 = customtkinter.CTkButton(master=self.frame_right,
-                                                text="CTkButton",
-                                                border_width=2,  # <- custom border_width
-                                                fg_color=None,  # <- no fg_color
-                                                command=self.button_event)
-        self.button_5.grid(row=8, column=2, columnspan=1, pady=20, padx=20, sticky="we")
-
-        # set default values
-        self.optionmenu_1.set("Dark")
-        self.combobox_1.set("CTkCombobox")
-        self.addstudent.set("Student")
-        self.radio_button_1.select()
-        self.slider_1.set(0.2)
-        self.slider_2.set(0.7)
-        self.progressbar.set(0.5)
-        self.switch_2.select()
-        self.radio_button_3.configure(state=tkinter.DISABLED)
-        self.check_box_1.configure(state=tkinter.DISABLED, text="CheckBox disabled")
-        self.check_box_2.select()
 
     def new_method(self):
         tk.Tk.title
@@ -226,9 +167,11 @@ class startPage(tk.Frame):
     def change_appearance_mode(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)
 
-    
+    # set default values
+    #self.optionmenu_1.set("Dark")
+    #self.addstudent.set("Student")
 
-class Page1(tk.Frame):
+class AddStudent(tk.Frame):
      
     def __init__(self, parent, controller):
          
@@ -268,18 +211,126 @@ class Page1(tk.Frame):
                                               text_font=("Roboto Medium", -16))
         self.label_2.place(relx = 0.5, rely = 0.05, anchor = 'center')
         
-        def show_page1(selected_value):
+        def show_AddStudent(selected_value):
             if selected_value == "Add Student":
-                controller.show_frame(Page1)
+                controller.show_frame(AddStudent)
             elif selected_value == "View Student":
-                controller.show_frame(startPage)
+                controller.show_frame(ViewStudent)
 
-        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_page1)
+        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_AddStudent)
         self.addstudent.grid(row=2, column=0, pady=10, padx=50)
         
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Event",
-                                                command=lambda: controller.show_frame(Page2))
+                                                command=lambda: controller.show_frame(Event))
+        self.button_2.grid(row=3, column=0, pady=10, padx=20)
+
+        
+        self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
+        self.fname.place(relx = 0.08, rely = 0.12)
+        self.name = ttk.Label(master=self.frame_right,
+                                                text="Name",
+                                                font=("Roboto Medium", 8),
+                                                background='#ebebeb')
+        self.name.place(relx = 0.08, rely = 0.06)
+        self.lname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
+        self.lname.place(relx = 0.53, rely = 0.12)
+
+        self.month = customtkinter.CTkComboBox(master=self.frame_right, values=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], state='readonly')
+        self.month.place(relx = 0.08, rely = 0.3)
+        self.month.set("Month")
+        
+        self.year = customtkinter.CTkComboBox(master=self.frame_right, values = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018", "2019", "2020", "2021", "2022", "2023"], state='readonly')
+        self.year.place(relx = 0.645, rely = 0.3)
+        self.year.set("Year")
+
+        self.day = customtkinter.CTkComboBox(master=self.frame_right, width = 100, values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"], state='readonly' )
+        self.day.place(relx = 0.4, rely = 0.3)
+        self.day.set("Day")
+
+        self.birthdate = ttk.Label(master=self.frame_right,
+                                              text="Birthdate",
+                                              font=("Roboto Medium", 8),
+                                              background='#ebebeb')
+        self.birthdate.place(relx = 0.08, rely = 0.24)
+        
+        self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
+        self.gradelvl.place(relx = 0.08, rely = 0.48)
+        self.gradelvl.set('Grade')
+        self.grade = ttk.Label(master = self.frame_right, text = "Grade",
+                                            font=("Roboto Medium", 8),
+                                            background='#ebebeb')
+        self.grade.place(relx = 0.08, rely = 0.42)
+
+        
+        self.gpa = customtkinter.CTkEntry(master = self.frame_right, width = 100, placeholder_text= 'GPA', text_color='black')
+        self.gpa.place(relx = 0.08, rely = 0.66)
+        self.gpalabel = ttk.Label(master=self.frame_right, 
+                                            text = 'GPA (Unweighted)',
+                                            font=('Roboto Medium', 8),
+                                            background='#ebebeb')
+        self.gpalabel.place(relx = 0.08, rely = 0.6)
+
+        #def addstudent():
+         #   if self.year.get() != 'Year':
+          #      year = self.year.get()
+           #     newstudent = Student.Student(self.fname.get(), self.lname.get(), (2023 - int(year)), self.gradelvl.get(), self.gpa.get(), 0, 0)
+            #    controller.show_frame(AddStudent)
+             #   return newstudent 
+        self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add')#, command= addstudent)
+        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
+
+class Event(tk.Frame):      
+     def __init__(self, parent, controller):
+         
+        tk.Frame.__init__(self, parent)
+  
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_left = customtkinter.CTkFrame(master=self,
+                                                 width=180,
+                                                 corner_radius=0)
+        self.frame_left.grid(row=0, column=0, sticky="nswe")
+
+        self.frame_right = customtkinter.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+        # ============ frame_left ============
+
+        # configure grid layout (1x11)
+        self.frame_left.grid_rowconfigure(0, minsize=10)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(5, weight=1)  # empty row as spacing
+        self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
+
+        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
+        self.frame_right.rowconfigure(7, weight=10)
+        self.frame_right.columnconfigure((0, 1, 2), weight=1)
+        self.frame_right.columnconfigure(3, weight=0)
+        
+        self.label_1 = customtkinter.CTkLabel(master=self.frame_left,
+                                              text="Actions",
+                                              text_font=("Roboto Medium", -16))  # font name and size in px
+        self.label_1.grid(row=1, column=0, pady=10, padx=10)
+        
+        self.label_2 = customtkinter.CTkLabel(master=self.frame_right, 
+                                              text = "Add Student", 
+                                              text_font=("Roboto Medium", -16))
+        self.label_2.place(relx = 0.5, rely = 0.05, anchor = 'center')
+        
+        def show_AddStudent(selected_value):
+            if selected_value == "Add Student":
+                controller.show_frame(AddStudent)
+            elif selected_value == "View Student":
+                controller.show_frame(ViewStudent)
+
+        self.addstudent = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Add Student", "View Student"], command = show_AddStudent)
+        self.addstudent.grid(row=2, column=0, pady=10, padx=50)
+        
+        self.button_2 = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Event",
+                                                command=lambda: controller.show_frame(Event))
         self.button_2.grid(row=3, column=0, pady=10, padx=20)
 
         self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
@@ -331,34 +382,10 @@ class Page1(tk.Frame):
          #   if self.year.get() != 'Year':
           #      year = self.year.get()
            #     newstudent = Student.Student(self.fname.get(), self.lname.get(), (2023 - int(year)), self.gradelvl.get(), self.gpa.get(), 0, 0)
-            #    controller.show_frame(Page1)
+            #    controller.show_frame(AddStudent)
              #   return newstudent 
         self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add')#, command= addstudent)
-        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
-
-class Page2(tk.Frame):      
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text ="Page 2", font = ("Roboto Medium", -16))
-        label.grid(row = 0, column = 4, padx = 10, pady = 10)
-  
-        # button to show frame 2 with text
-        # layout2
-        button1 = ttk.Button(self, text ="Page 1",
-                            command = lambda : controller.show_frame(Page1))
-     
-        # putting the button in its place by
-        # using grid
-        button1.grid(row = 1, column = 1, padx = 10, pady = 10)
-  
-        # button to show frame 3 with text
-        # layout3
-        button2 = ttk.Button(self, text ="Startpage",
-                            command = lambda : controller.show_frame(startPage))
-     
-        # putting the button in its place by
-        # using grid
-        button2.grid(row = 2, column = 1, padx = 10, pady = 10)
+        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')      
 
 
 def on_closing(self, event=0):
