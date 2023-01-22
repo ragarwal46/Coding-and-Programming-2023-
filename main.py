@@ -266,37 +266,45 @@ class AddStudent(tk.Frame):
                                                 command=lambda: controller.show_frame(Event))
         self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
 
+
+        self.AddStudentLabel = ttk.Label(master=self.frame_right,
+                                              text="Add Student",
+                                              font=("Roboto Medium", 20),
+                                              background='#ebebeb')
+        self.AddStudentLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+
         #Name Fields
         self.name = ttk.Label(master=self.frame_right,
                                                 text="Name",
                                                 font=("Roboto Medium", 8),
                                                 background='#ebebeb')
-        self.name.place(relx = 0.08, rely = 0.06)
+        self.name.place(relx = 0.08, rely = 0.1)
 
         self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
-        self.fname.place(relx = 0.08, rely = 0.12)
+        self.fname.place(relx = 0.08, rely = 0.16)
         
         self.lname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
-        self.lname.place(relx = 0.53, rely = 0.12)
+        self.lname.place(relx = 0.53, rely = 0.16)
 
         #Age Fields
         self.ageLabel = ttk.Label(master=self.frame_right,
                                               text="Age",
                                               font=("Roboto Medium", 8),
                                               background='#ebebeb')
-        self.ageLabel.place(relx = 0.08, rely = 0.24)
+        self.ageLabel.place(relx = 0.08, rely = 0.26)
 
         self.age = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Age (Years)', text_color='black')
-        self.age.place(relx = 0.08, rely = 0.3)
+        self.age.place(relx = 0.08, rely = 0.32)
 
         #Grade fields
-        self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
-        self.gradelvl.place(relx = 0.08, rely = 0.48)
-        self.gradelvl.set('Grade')
         self.grade = ttk.Label(master = self.frame_right, text = "Grade",
                                             font=("Roboto Medium", 8),
                                             background='#ebebeb')
         self.grade.place(relx = 0.08, rely = 0.42)
+        self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
+        self.gradelvl.place(relx = 0.08, rely = 0.48)
+        self.gradelvl.set('Grade')
+        
 
         #GPA fields
         self.gpalabel = ttk.Label(master=self.frame_right, 
