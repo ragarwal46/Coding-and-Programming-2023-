@@ -1,9 +1,7 @@
 from doctest import master
 from logging import root
-import Student
 import tkinter as tk
 from tkinter import ttk
-import tkinter.messagebox
 import customtkinter
 from tkinter import *
 import mysql.connector
@@ -64,8 +62,6 @@ class tkinterApp(tk.Tk):
 
 
 class Home(tk.Frame):
-
-    
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
@@ -318,7 +314,6 @@ class AddStudent(tk.Frame):
         
         
         def add_student_db():
-            #my_w = tk.Tk()
             my_connect = mysql.connector.connect(
             host="localhost",
             user="root", 
@@ -329,6 +324,8 @@ class AddStudent(tk.Frame):
             try:
                 if self.fname.get() == '' or self.lname.get() == '' or self.gradelvl.get() == '' or self.age.get() == '' or self.gpa.get() == '':
                     mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
+                elif float(self.gpa.get()) <= 0.0 or float(self.gpa.get()) > 4.0:
+                    mb.showwarning("Error", "GPA must be between 0.0 and 4.0")
                 else:
                     #executing the sql command
                     my_conn = my_connect.cursor()
