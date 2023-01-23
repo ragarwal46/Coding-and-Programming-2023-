@@ -28,6 +28,7 @@ class tkinterApp(tk.Tk):
 
         #root = tk.Tk()
         self.geometry("1000x600")
+        self.title("Alliance Academy For Innovation Student Event Tracker")
         #root.geometry("1000x600")
         container = tk.Frame(self)
         container.pack(expand = True, fill = "both")
