@@ -415,6 +415,14 @@ class Event(tk.Frame):
                                                 text="Event",
                                                 command=lambda: controller.show_frame(Event))
         self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
+
+        self.AssignEventLabel = ttk.Label(master=self.frame_right,
+                                              text="Assign an Event",
+                                              font=("Roboto Medium", 20),
+                                              background='#ebebeb')
+        self.AssignEventLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+
+
         def open_event_table():
             my_w = tk.Tk()
             my_connect = mysql.connector.connect(
@@ -426,7 +434,7 @@ class Event(tk.Frame):
 
             my_conn = my_connect.cursor()
             ####### end of connection ####
-            my_conn.execute("SELECT Name, Type, Points FROM event")
+            my_conn.execute("SELECT * FROM event")
             i=0 
             for student in my_conn: 
                 for j in range(len(student)):
@@ -438,7 +446,80 @@ class Event(tk.Frame):
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_right,
                                                 text="View Events Table",
                                                 command=open_event_table)
-        self.ViewStudentTableButton.place(relx = 0.15, rely = 0.05, anchor = 'center')
+        self.ViewStudentTableButton.place(relx = 0.08, rely = 0.03)
+        
+        #Student ID Fields
+        self.StudentIDLabel = ttk.Label(master=self.frame_right,
+                                                text="Student ID",
+                                                font=("Roboto Medium", 8),
+                                                background='#ebebeb')
+        self.StudentIDLabel.place(relx = 0.08, rely = 0.13)
+
+        self.StudentID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Student ID', text_color='black')
+        self.StudentID.place(relx = 0.08, rely = 0.19)
+
+
+        #Events fields
+        self.EventsLabel = ttk.Label(master = self.frame_right, text = "Events",
+                                            font=("Roboto Medium", 8),
+                                            background='#ebebeb')
+        self.EventsLabel.place(relx = 0.08, rely = 0.26)
+        self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Painting Competition", "Academic Bowl"], state='readonly')
+        self.EventsDropdown.place(relx = 0.08, rely = 0.32)
+        self.EventsDropdown.set('Select an Event')
+
+
+
+
+        def assign_event_db():
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                if self.StudentID.get() == "" or self.EventsDropdown.get() == "":
+                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
+                else:
+                    
+                    EventIDSelected = 0
+                    if(self.EventsDropdown.get() == "Basketball"):
+                        EventIDSelected = 1
+                    elif(self.EventsDropdown.get() == "Football"):
+                        EventIDSelected = 2
+                    elif(self.EventsDropdown.get() == "Baseball"):
+                        EventIDSelected = 3
+                    elif(self.EventsDropdown.get() == "Golf"):
+                        EventIDSelected = 4
+                    elif(self.EventsDropdown.get() == "Soccer"):
+                        EventIDSelected = 5
+                    elif(self.EventsDropdown.get() == "Band Competition"):
+                        EventIDSelected = 6
+                    elif(self.EventsDropdown.get() == "Robotics"):
+                        EventIDSelected = 7
+                    elif(self.EventsDropdown.get() == "Technology Competition"):
+                        EventIDSelected = 8
+                    elif(self.EventsDropdown.get() == "Painting Competition"):
+                        EventIDSelected = 9
+                    elif(self.EventsDropdown.get() == "Academic Bowl"):
+                        EventIDSelected = 10
+
+
+                    #executing the sql command
+                    my_conn = my_connect.cursor()
+                    my_conn.execute("INSERT INTO EventTracker (StudentID, EventID) Value ('" + self.StudentID.get() + "', '" + str(EventIDSelected) + "')")
+                    my_connect.commit()
+                    mb.showinfo("Success", "Event Assigned")
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Event was not assigned")
+
+
+        self.assignEventbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Assign', command=assign_event_db)
+        self.assignEventbutton.place(relx = 0.08, rely = 0.45)
+        
 
 
 def on_closing(self, event=0):
