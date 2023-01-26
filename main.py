@@ -6,6 +6,7 @@ import customtkinter
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox as mb
+from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -156,22 +157,56 @@ class Home(tk.Frame):
         self.frame_right.columnconfigure(2, weight=0)
 
         self.frame_info = customtkinter.CTkFrame(master=self.frame_right)
-        self.frame_info.grid(row=0, column=0, columnspan=2, rowspan=4, pady=20, padx=20, sticky="nsew")
-
+        self.Label = ttk.Label(master=self.frame_right,
+                                              text="Welcome to the Alliance Academy Student Event Tracker",
+                                              font=("Roboto Medium", 20),
+                                              background='#ebebeb')
+        self.Label.place(relx = 0.5, rely = 0.05, anchor='center')
+        
+        self.image1 = ImageTk.PhotoImage(Image.open("pic1.jpg"))
+        self.image2 = ImageTk.PhotoImage(Image.open("pic2.jpg"))
+        self.image3 = ImageTk.PhotoImage(Image.open("pic3.jpg"))
+        self.image4 = ImageTk.PhotoImage(Image.open("pic4.jpg"))
+        
+        self.image_label = Label(master=self.frame_right, image=self.image1)
+        self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
+        self.current_image = 0
+        self.button1 = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
+        self.button1.place(relx = 0.91, rely = 0.525, anchor = 'center')
+        self.button2 = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
+        self.button2.place(relx = 0.09, rely = 0.525, anchor = 'center')
+    
+    def on_next(self):
+        if self.current_image == 0:
+            self.image_label.config(image=self.image2)
+            self.current_image += 1
+        elif self.current_image == 1:
+            self.image_label.config(image=self.image3)
+            self.current_image += 1
+        elif self.current_image == 2:
+            self.image_label.config(image=self.image4)
+            self.current_image += 1
+        else:
+            self.image_label.config(image=self.image1)
+            self.current_image = 0
+    def on_back(self):
+        if self.current_image == 0:
+            self.image_label.config(image=self.image4)
+            self.current_image = 3 
+        elif self.current_image == 1: 
+            self.image_label.config(image=self.image1)
+            self.current_image -= 1 
+        elif self.current_image == 2: 
+            self.image_label.config(image=self.image2)
+            self.current_image -= 1
+        else:
+            self.image_label.config(image=self.image3)
+            self.current_image -= 1
         # ============ frame_info ============
 
         # configure grid layout (1x1)
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
-
-
-        
-
-        self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_right,
-                                                text="View Student Table",
-                                                command=open_stuent_table)
-        self.ViewStudentTableButton.place(relx = 0.5, rely = 0.05, anchor = 'center')
-
 
     def new_method(self):
         tk.Tk.title = "AAI Student Event Tracker"
@@ -185,7 +220,6 @@ class Home(tk.Frame):
     # set default values
     #self.optionmenu_1.set("Dark")
     #self.addstudent.set("Student")
-
 class AddStudent(tk.Frame):
      
     def __init__(self, parent, controller):
