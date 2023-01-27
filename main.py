@@ -43,7 +43,7 @@ class tkinterApp(tk.Tk):
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, AddStudent, Event):
+        for F in (Home, AddStudent, Event, Results):
   
             frame = F(container, self)
   
@@ -133,9 +133,14 @@ class Home(tk.Frame):
         self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Event",
+                                                text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
         self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
+
+        self.showResults = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Results",
+                                                command=lambda: controller.show_frame(Results))
+        self.showResults.grid(row=6, column=0, pady=20, padx=20)
       
 
         
@@ -293,7 +298,7 @@ class AddStudent(tk.Frame):
         self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Event",
+                                                text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
         self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
 
@@ -303,6 +308,11 @@ class AddStudent(tk.Frame):
                                               font=("Roboto Medium", 20),
                                               background='#ebebeb')
         self.AddStudentLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+
+        self.showResults = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Results",
+                                                command=lambda: controller.show_frame(Results))
+        self.showResults.grid(row=6, column=0, pady=20, padx=20)
 
         #Name Fields
         self.name = ttk.Label(master=self.frame_right,
@@ -447,7 +457,7 @@ class Event(tk.Frame):
         self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Event",
+                                                text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
         self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
 
@@ -482,6 +492,11 @@ class Event(tk.Frame):
                                                 text="View Events Table",
                                                 command=open_event_table)
         self.ViewStudentTableButton.place(relx = 0.08, rely = 0.03)
+
+        self.showResults = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Results",
+                                                command=lambda: controller.show_frame(Results))
+        self.showResults.grid(row=6, column=0, pady=20, padx=20)
         
         #Student ID Fields
         self.StudentIDLabel = ttk.Label(master=self.frame_right,
@@ -554,7 +569,134 @@ class Event(tk.Frame):
 
         self.assignEventbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Assign', command=assign_event_db)
         self.assignEventbutton.place(relx = 0.08, rely = 0.45)
+
+class Results(tk.Frame):
+     
+    def __init__(self, parent, controller):
+         
+        tk.Frame.__init__(self, parent)
+  
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_left = customtkinter.CTkFrame(master=self,
+                                                 width=180,
+                                                 corner_radius=0)
+        self.frame_left.grid(row=0, column=0, sticky="nswe")
+
+        self.frame_right = customtkinter.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+        # ============ frame_left ============
+
+        # configure grid layout (1x11)
+        self.frame_left.grid_rowconfigure(0, minsize=10)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(5, weight=1)  # empty row as spacing
+        self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
+
+        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
+        self.frame_right.rowconfigure(7, weight=10)
+        self.frame_right.columnconfigure((0, 1, 2), weight=1)
+        self.frame_right.columnconfigure(3, weight=0)
         
+        self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
+                                              text="Actions",
+                                              text_font=("Roboto Medium", -16))  # font name and size in px
+        self.actionsLabel.grid(row=1, column=0, pady=10, padx=10)
+
+        def open_stuent_table():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            my_conn = my_connect.cursor()
+            ####### end of connection ####
+            my_conn.execute("SELECT * FROM student")
+            i=0 
+            for student in my_conn: 
+                for j in range(len(student)):
+                    e = Entry(my_w, width=20, fg='blue') 
+                    e.grid(row=i, column=j) 
+                    e.insert(END, student[j])
+                i=i+1
+
+        self.showHome = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Home",
+                                                command=lambda: controller.show_frame(Home))
+        self.showHome.grid(row=2, column=0, pady=20, padx=20)
+
+
+        self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
+                                                text="View Student Table",
+                                                command=open_stuent_table)
+        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20)
+
+        
+        self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Add Student",
+                                                command=lambda: controller.show_frame(AddStudent))
+        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
+        
+        self.showEvent = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Assign Event",
+                                                command=lambda: controller.show_frame(Event))
+        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
+
+
+        self.showResults = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Results",
+                                                command=lambda: controller.show_frame(Results))
+        self.showResults.grid(row=6, column=0, pady=20, padx=20)
+
+
+        self.ViewResultsLabel = ttk.Label(master=self.frame_right,
+                                              text="View Results",
+                                              font=("Roboto Medium", 20),
+                                              background='#ebebeb')
+        self.ViewResultsLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+
+        
+
+        
+        
+        
+        def add_student_db():
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                if self.fname.get() == '' or self.lname.get() == '' or self.gradelvl.get() == '' or self.age.get() == '' or self.gpa.get() == '':
+                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
+                elif float(self.gpa.get()) <= 0.0 or float(self.gpa.get()) > 4.0:
+                    mb.showwarning("Error", "GPA must be between 0.0 and 4.0")
+                else:
+                    #executing the sql command
+                    my_conn = my_connect.cursor()
+                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + self.gradelvl.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
+                    my_connect.commit()
+                    mb.showinfo("Success", "Student added")
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Student was not added")
+
+
+        self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=add_student_db)
+        self.topWinnerButton.place(relx = 0.1, rely = 0.13)
+
+        self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner', command=add_student_db)
+        self.randomWinnerButton.place(relx = 0.4, rely = 0.13)
+
+        self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Report', command=add_student_db)
+        self.reportButton.place(relx = 0.7, rely = 0.13)
 
 
 def on_closing(self, event=0):
