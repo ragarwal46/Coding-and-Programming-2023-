@@ -584,7 +584,7 @@ class Event(tk.Frame):
         self.EventsDropdown.place(relx = 0.08, rely = 0.32)
         self.EventsDropdown.set('Select an Event')
 
-        def showRecomendation():
+        def showRecomendationForStudentsThatNeedTutoring():
             my_w = tk.Tk()
             my_connect = mysql.connector.connect(
             host="localhost",
@@ -617,9 +617,49 @@ class Event(tk.Frame):
                 my_connect.rollback()
                 mb.showerror("Failed", "Reccomendations could not be found")
 
-        self.ReccomendationsButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations', command=showRecomendation)
-        self.ReccomendationsButton.place(relx = 0.7, rely = 0.13)
+        def showRecomendationForStudentsThatAreEligableToTutor():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
 
+            try:
+                my_conn = my_connect.cursor()
+                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA > (SELECT avg(GPA) from Student)")
+                
+
+                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+                column1.grid(row=0,column=0, sticky='w')
+                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+                column2.grid(row=0,column=1, sticky='w')
+                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+                column3.grid(row=0,column=2, sticky='w')
+
+                i=1 
+                for student in my_conn: 
+                    for j in range(len(student)):
+                        e = Entry(my_w, width=25, fg='blue') 
+                        e.grid(row=i, column=j) 
+                        e.insert(END, student[j])
+                    i=i+1
+
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Reccomendations could not be found")
+        
+        self.recomendationLabel = ttk.Label(master = self.frame_right, text = "Recomended Events For: ",
+                                            font=("Roboto Medium", 8),
+                                            background='#d1d5d8')
+        self.recomendationLabel.place(relx = 0.7, rely = 0.13)
+
+        self.ReccomendationsForKidsWhoNeedTutoringButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations For Kids Who May Need Tutoring', command=showRecomendationForStudentsThatNeedTutoring)
+        self.ReccomendationsForKidsWhoNeedTutoringButton.place(relx = 0.6, rely = 0.19)
+
+        self.ReccomendationsForKidsWhoCanTutorButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations For Kids Who can Tutor', command=showRecomendationForStudentsThatAreEligableToTutor)
+        self.ReccomendationsForKidsWhoCanTutorButton.place(relx = 0.65, rely = 0.3)
 
         def assign_event_db():
             my_connect = mysql.connector.connect(
