@@ -8,7 +8,7 @@ import mysql.connector
 from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
-customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_appearance_mode("Light")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
@@ -22,15 +22,8 @@ class tkinterApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
 
-
-        # creating a container
-        #container = tk.Frame(self) 
-        #container.pack(side = "top", fill = "both", expand = True)
-
-        #root = tk.Tk()
         self.geometry("1000x600")
         self.title("Alliance Academy For Innovation Student Event Tracker")
-        #root.geometry("1000x600")
         container = tk.Frame(self)
         container.pack(expand = True, fill = "both")
 
@@ -661,11 +654,7 @@ class Results(tk.Frame):
         self.ViewResultsLabel.place(relx = 0.5, rely = 0.05, anchor='center')
 
         
-
-        
-        
-        
-        def add_student_db():
+        def showTopWinner():
             my_connect = mysql.connector.connect(
             host="localhost",
             user="root", 
@@ -674,28 +663,45 @@ class Results(tk.Frame):
             )
 
             try:
-                if self.fname.get() == '' or self.lname.get() == '' or self.gradelvl.get() == '' or self.age.get() == '' or self.gpa.get() == '':
-                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
-                elif float(self.gpa.get()) <= 0.0 or float(self.gpa.get()) > 4.0:
-                    mb.showwarning("Error", "GPA must be between 0.0 and 4.0")
-                else:
-                    #executing the sql command
-                    my_conn = my_connect.cursor()
-                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + self.gradelvl.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
-                    my_connect.commit()
-                    mb.showinfo("Success", "Student added")
+                my_conn = my_connect.cursor()
+                topWinner = my_conn.execute("select s.FirstName, s.LastName, count(et.StudentID) as TotalPoints from eventtracker et inner join student s on et.StudentID=s.StudentID group by et.StudentID order by count(et.StudentID) desc limit 1")
+                
+                i=0 
+                for student in my_conn:
+                    mb.showinfo("Top Winner", "Congratulations to " + student[0] + " " + student[1] + " who received " + str(student[2])  + " points")
+                    i=i+1
             except:
                 my_connect.rollback()
-                mb.showerror("Failed", "Student was not added")
+                mb.showerror("Failed", "Top winner could not be found")
 
 
-        self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=add_student_db)
+        self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showTopWinner)
         self.topWinnerButton.place(relx = 0.1, rely = 0.13)
 
-        self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner', command=add_student_db)
+        self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner')
         self.randomWinnerButton.place(relx = 0.4, rely = 0.13)
 
-        self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Report', command=add_student_db)
+        def showQuarterlyReport():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            my_conn = my_connect.cursor()
+            ####### end of connection ####
+            my_conn.execute("select s.FirstName, s.LastName, s.Grade, s.Age, s.GPA, count(et.StudentID) as TotalPoints from eventtracker et inner join student s on et.StudentID=s.StudentID group by et.StudentID order by s.Grade, s.FirstName, s.LastName")
+            i=0 
+            for student in my_conn: 
+                for j in range(len(student)):
+                    e = Entry(my_w, width=15, fg='blue') 
+                    e.grid(row=i, column=j) 
+                    e.insert(END, student[j])
+                i=i+1
+
+        self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
 
 
