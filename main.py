@@ -184,37 +184,34 @@ class Home(tk.Frame):
         
         self.image_label = Label(master=self.frame_right, image=self.image1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
-        self.current_image = 0
+        self.current_image = 1
         self.nextButton = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
         self.nextButton.place(relx = 0.91, rely = 0.525, anchor = 'center')
         self.previousButon = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
         self.previousButon.place(relx = 0.09, rely = 0.525, anchor = 'center')
     
     def on_next(self):
-        if self.current_image == 0:
+        if self.current_image == 1:
             self.image_label.config(image=self.image2)
-            self.current_image += 1
-        elif self.current_image == 1:
-            self.image_label.config(image=self.image3)
-            self.current_image += 1
+            self.current_image +=1 
         elif self.current_image == 2:
-            self.image_label.config(image=self.image4)
-            self.current_image += 1
+            self.image_label.config(image=self.image3)
+            self.current_image +=1 
         elif self.current_image == 3:
-            self.image_label.config(image=self.image5)
-            self.current_image += 1
+            self.image_label.config(image=self.image4)
+            self.current_image +=1    
         elif self.current_image == 4:
             self.image_label.config(image=self.image5)
-            self.current_image += 1
+            self.current_image +=1
         elif self.current_image == 5:
             self.image_label.config(image=self.image6)
-            self.current_image += 1
+            self.current_image +=1
         elif self.current_image == 6:
             self.image_label.config(image=self.image7)
-            self.current_image += 1
+            self.current_image +=1
         else:
-            self.image_label.config(image=self.image1)
             self.current_image = 0
+            self.image_label.config(image=self.image1)
     def on_back(self):
         if self.current_image == 0:
             self.image_label.config(image=self.image4)
@@ -586,6 +583,27 @@ class Event(tk.Frame):
         self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Tutoring", "Academic Bowl"], state='readonly')
         self.EventsDropdown.place(relx = 0.08, rely = 0.32)
         self.EventsDropdown.set('Select an Event')
+
+        def showRecomendation():
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                my_conn = my_connect.cursor()
+                topWinner = my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA < (SELECT avg(GPA) from Student")
+                
+                i=0 
+                for student in my_conn:
+                    mb.showinfo("Recomend Tutoring to these students" + student[0] + " " + student[1] + " who curerntly " + str(student[2])  + " may need some help to excel in Academics")
+                    i=i+1
+            except:
+                my_connect.rollback()
+                mb.showerror("No students currently need help with excelling in thier")
+
 
 
 
