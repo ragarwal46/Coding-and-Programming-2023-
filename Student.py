@@ -172,6 +172,12 @@ class Home(tk.Frame):
         self.image2 = ImageTk.PhotoImage(Image.open("pic2.jpg"))
         self.image3 = ImageTk.PhotoImage(Image.open("pic3.jpg"))
         self.image4 = ImageTk.PhotoImage(Image.open("pic4.jpg"))
+        self.image5 = ImageTk.PhotoImage(Image.open("pic5.png"))
+        self.image6 = ImageTk.PhotoImage(Image.open("pic6.png"))
+        self.image7 = ImageTk.PhotoImage(Image.open("pic7.png"))
+
+
+
         
         self.image_label = Label(master=self.frame_right, image=self.image1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
@@ -191,21 +197,48 @@ class Home(tk.Frame):
         elif self.current_image == 2:
             self.image_label.config(image=self.image4)
             self.current_image += 1
+        elif self.current_image == 3:
+            self.image_label.config(image=self.image5)
+            self.current_image += 1
+        elif self.current_image == 4:
+            self.image_label.config(image=self.image5)
+            self.current_image += 1
+        elif self.current_image == 5:
+            self.image_label.config(image=self.image6)
+            self.current_image += 1;
+        elif self.current_image == 6:
+            self.image_label.config(image=self.image7)
+            self.current_image += 1
         else:
             self.image_label.config(image=self.image1)
             self.current_image = 0
     def on_back(self):
         if self.current_image == 0:
             self.image_label.config(image=self.image4)
-            self.current_image = 3 
+            self.current_image = 7 
         elif self.current_image == 1: 
             self.image_label.config(image=self.image1)
             self.current_image -= 1 
         elif self.current_image == 2: 
             self.image_label.config(image=self.image2)
             self.current_image -= 1
-        else:
+        elif self.current_image == 3: 
             self.image_label.config(image=self.image3)
+            self.current_image -= 1
+        elif self.current_image == 4: 
+            self.image_label.config(image=self.image4)
+            self.current_image -= 1
+        elif self.current_image == 5: 
+            self.image_label.config(image=self.image5)
+            self.current_image -= 1
+        elif self.current_image == 6: 
+            self.image_label.config(image=self.image6)
+            self.current_image -= 1
+        elif self.current_image == 7: 
+            self.image_label.config(image=self.image7)
+            self.current_image -= 1
+        else:
+            self.image_label.config(image=self.image7)
             self.current_image -= 1
         # ============ frame_info ============
 
@@ -551,10 +584,12 @@ class Event(tk.Frame):
                         EventIDSelected = 7
                     elif(self.EventsDropdown.get() == "Technology Competition"):
                         EventIDSelected = 8
-                    elif(self.EventsDropdown.get() == "Painting Competition"):
+                    elif(self.EventsDropdown.get() == "NeedsTutoring"):
                         EventIDSelected = 9
                     elif(self.EventsDropdown.get() == "Academic Bowl"):
                         EventIDSelected = 10
+                    elif(self.EventsDropdown.get() == "Tutor Students"):
+                        EventIDSelected = 11
 
 
                     #executing the sql command
