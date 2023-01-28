@@ -175,14 +175,20 @@ class Home(tk.Frame):
         self.image2 = ImageTk.PhotoImage(Image.open("pic2.jpg"))
         self.image3 = ImageTk.PhotoImage(Image.open("pic3.jpg"))
         self.image4 = ImageTk.PhotoImage(Image.open("pic4.jpg"))
+        self.image5 = ImageTk.PhotoImage(Image.open("pic5.png"))
+        self.image6 = ImageTk.PhotoImage(Image.open("pic6.png"))
+        self.image7 = ImageTk.PhotoImage(Image.open("pic7.png"))
+
+
+
         
         self.image_label = Label(master=self.frame_right, image=self.image1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
         self.current_image = 0
-        self.button1 = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
-        self.button1.place(relx = 0.91, rely = 0.525, anchor = 'center')
-        self.button2 = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
-        self.button2.place(relx = 0.09, rely = 0.525, anchor = 'center')
+        self.nextButton = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
+        self.nextButton.place(relx = 0.91, rely = 0.525, anchor = 'center')
+        self.previousButon = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
+        self.previousButon.place(relx = 0.09, rely = 0.525, anchor = 'center')
     
     def on_next(self):
         if self.current_image == 0:
@@ -194,21 +200,48 @@ class Home(tk.Frame):
         elif self.current_image == 2:
             self.image_label.config(image=self.image4)
             self.current_image += 1
+        elif self.current_image == 3:
+            self.image_label.config(image=self.image5)
+            self.current_image += 1
+        elif self.current_image == 4:
+            self.image_label.config(image=self.image5)
+            self.current_image += 1
+        elif self.current_image == 5:
+            self.image_label.config(image=self.image6)
+            self.current_image += 1
+        elif self.current_image == 6:
+            self.image_label.config(image=self.image7)
+            self.current_image += 1
         else:
             self.image_label.config(image=self.image1)
             self.current_image = 0
     def on_back(self):
         if self.current_image == 0:
             self.image_label.config(image=self.image4)
-            self.current_image = 3 
+            self.current_image = 7 
         elif self.current_image == 1: 
             self.image_label.config(image=self.image1)
             self.current_image -= 1 
         elif self.current_image == 2: 
             self.image_label.config(image=self.image2)
             self.current_image -= 1
-        else:
+        elif self.current_image == 3: 
             self.image_label.config(image=self.image3)
+            self.current_image -= 1
+        elif self.current_image == 4: 
+            self.image_label.config(image=self.image4)
+            self.current_image -= 1
+        elif self.current_image == 5: 
+            self.image_label.config(image=self.image5)
+            self.current_image -= 1
+        elif self.current_image == 6: 
+            self.image_label.config(image=self.image6)
+            self.current_image -= 1
+        elif self.current_image == 7: 
+            self.image_label.config(image=self.image7)
+            self.current_image -= 1
+        else:
+            self.image_label.config(image=self.image7)
             self.current_image -= 1
         # ============ frame_info ============
 
@@ -216,11 +249,6 @@ class Home(tk.Frame):
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
 
-    def new_method(self):
-        tk.Tk.title = "AAI Student Event Tracker"
-
-    def button_event(self):
-        print("Button pressed")
 
     def change_appearance_mode(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -555,7 +583,7 @@ class Event(tk.Frame):
                                             font=("Roboto Medium", 8),
                                             background='#d1d5d8')
         self.EventsLabel.place(relx = 0.08, rely = 0.26)
-        self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Painting Competition", "Academic Bowl"], state='readonly')
+        self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Tutoring", "Academic Bowl"], state='readonly')
         self.EventsDropdown.place(relx = 0.08, rely = 0.32)
         self.EventsDropdown.set('Select an Event')
 
