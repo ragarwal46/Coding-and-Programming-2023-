@@ -604,6 +604,10 @@ class Event(tk.Frame):
                 my_connect.rollback()
                 mb.showerror("No students currently need help with excelling in thier")
 
+        self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showRecomendation())
+        self.topWinnerButton.place(relx = 0.25, rely = 0.3)
+
+
 
 
 
