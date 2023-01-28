@@ -585,6 +585,7 @@ class Event(tk.Frame):
         self.EventsDropdown.set('Select an Event')
 
         def showRecomendation():
+            my_w = tk.Tk()
             my_connect = mysql.connector.connect(
             host="localhost",
             user="root", 
@@ -594,22 +595,30 @@ class Event(tk.Frame):
 
             try:
                 my_conn = my_connect.cursor()
-                topWinner = my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA < (SELECT avg(GPA) from Student")
+                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA < (SELECT avg(GPA) from Student)")
                 
-                i=0 
-                for student in my_conn:
-                    mb.showinfo("Recomend Tutoring to these students" + student[0] + " " + student[1] + " who curerntly " + str(student[2])  + " may need some help to excel in Academics")
+
+                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+                column1.grid(row=0,column=0, sticky='w')
+                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+                column2.grid(row=0,column=1, sticky='w')
+                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+                column3.grid(row=0,column=2, sticky='w')
+
+                i=1 
+                for student in my_conn: 
+                    for j in range(len(student)):
+                        e = Entry(my_w, width=25, fg='blue') 
+                        e.grid(row=i, column=j) 
+                        e.insert(END, student[j])
                     i=i+1
+
             except:
                 my_connect.rollback()
-                mb.showerror("No students currently need help with excelling in thier")
+                mb.showerror("Failed", "Reccomendations could not be found")
 
-        self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showRecomendation())
-        self.topWinnerButton.place(relx = 0.25, rely = 0.3)
-
-
-
-
+        self.ReccomendationsButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations', command=showRecomendation)
+        self.ReccomendationsButton.place(relx = 0.7, rely = 0.13)
 
 
         def assign_event_db():
