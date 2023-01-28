@@ -9,7 +9,7 @@ from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("Light")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
 
@@ -100,7 +100,21 @@ class Home(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM student")
-            i=0 
+
+            columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=1, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=2, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=3, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=4, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=5, sticky='w')
+
+            i=1
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -158,8 +172,8 @@ class Home(tk.Frame):
         self.Label = ttk.Label(master=self.frame_right,
                                               text="Welcome to the Alliance Academy Student Event Tracker",
                                               font=("Roboto Medium", 20),
-                                              background='#ebebeb')
-        self.Label.place(relx = 0.5, rely = 0.05, anchor='center')
+                                              background='#d1d5d8')
+        self.Label.place(relx = 0.5, rely = 0.1, anchor='center')
         
         self.image1 = ImageTk.PhotoImage(Image.open("pic1.jpg"))
         self.image2 = ImageTk.PhotoImage(Image.open("pic2.jpg"))
@@ -265,7 +279,21 @@ class AddStudent(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM student")
-            i=0 
+
+            columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=1, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=2, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=3, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=4, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=5, sticky='w')
+
+            i=1 
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -299,7 +327,7 @@ class AddStudent(tk.Frame):
         self.AddStudentLabel = ttk.Label(master=self.frame_right,
                                               text="Add Student",
                                               font=("Roboto Medium", 20),
-                                              background='#ebebeb')
+                                              background='#d1d5d8')
         self.AddStudentLabel.place(relx = 0.5, rely = 0.05, anchor='center')
 
         self.showResults = customtkinter.CTkButton(master=self.frame_left,
@@ -311,7 +339,7 @@ class AddStudent(tk.Frame):
         self.name = ttk.Label(master=self.frame_right,
                                                 text="Name",
                                                 font=("Roboto Medium", 8),
-                                                background='#ebebeb')
+                                                background='#d1d5d8')
         self.name.place(relx = 0.08, rely = 0.1)
 
         self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
@@ -324,7 +352,7 @@ class AddStudent(tk.Frame):
         self.ageLabel = ttk.Label(master=self.frame_right,
                                               text="Age",
                                               font=("Roboto Medium", 8),
-                                              background='#ebebeb')
+                                              background='#d1d5d8')
         self.ageLabel.place(relx = 0.08, rely = 0.26)
 
         self.age = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Age (Years)', text_color='black')
@@ -333,7 +361,7 @@ class AddStudent(tk.Frame):
         #Grade fields
         self.grade = ttk.Label(master = self.frame_right, text = "Grade",
                                             font=("Roboto Medium", 8),
-                                            background='#ebebeb')
+                                            background='#d1d5d8')
         self.grade.place(relx = 0.08, rely = 0.42)
         self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
         self.gradelvl.place(relx = 0.08, rely = 0.48)
@@ -344,7 +372,7 @@ class AddStudent(tk.Frame):
         self.gpalabel = ttk.Label(master=self.frame_right, 
                                             text = 'GPA (Unweighted)',
                                             font=('Roboto Medium', 8),
-                                            background='#ebebeb')
+                                            background='#d1d5d8')
         self.gpalabel.place(relx = 0.08, rely = 0.6)
 
         self.gpa = customtkinter.CTkEntry(master = self.frame_right, width = 100, placeholder_text= 'GPA', text_color='black')
@@ -424,7 +452,21 @@ class Event(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM student")
-            i=0 
+
+            columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=1, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=2, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=3, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=4, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=5, sticky='w')
+
+            i=1 
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -457,7 +499,7 @@ class Event(tk.Frame):
         self.AssignEventLabel = ttk.Label(master=self.frame_right,
                                               text="Assign an Event",
                                               font=("Roboto Medium", 20),
-                                              background='#ebebeb')
+                                              background='#d1d5d8')
         self.AssignEventLabel.place(relx = 0.5, rely = 0.05, anchor='center')
 
 
@@ -473,10 +515,20 @@ class Event(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM event")
-            i=0 
+
+            column1=Label(my_w,width=10,text='Event ID',borderwidth=0, anchor='w')
+            column1.grid(row=0,column=0, sticky='w')
+            column2=Label(my_w,width=10,text='Event Name',borderwidth=0, anchor='w')
+            column2.grid(row=0,column=1, sticky='w')
+            column3=Label(my_w,width=10,text='Event Type',borderwidth=0, anchor='w')
+            column3.grid(row=0,column=2, sticky='w')
+            column4=Label(my_w,width=10,text='Event Points',borderwidth=0, anchor='w')
+            column4.grid(row=0,column=3, sticky='w')
+
+            i=1 
             for student in my_conn: 
                 for j in range(len(student)):
-                    e = Entry(my_w, width=30, fg='blue') 
+                    e = Entry(my_w, width=25, fg='blue') 
                     e.grid(row=i, column=j) 
                     e.insert(END, student[j])
                 i=i+1
@@ -495,7 +547,7 @@ class Event(tk.Frame):
         self.StudentIDLabel = ttk.Label(master=self.frame_right,
                                                 text="Student ID",
                                                 font=("Roboto Medium", 8),
-                                                background='#ebebeb')
+                                                background='#d1d5d8')
         self.StudentIDLabel.place(relx = 0.08, rely = 0.13)
 
         self.StudentID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Student ID', text_color='black')
@@ -505,7 +557,7 @@ class Event(tk.Frame):
         #Events fields
         self.EventsLabel = ttk.Label(master = self.frame_right, text = "Events",
                                             font=("Roboto Medium", 8),
-                                            background='#ebebeb')
+                                            background='#d1d5d8')
         self.EventsLabel.place(relx = 0.08, rely = 0.26)
         self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Painting Competition", "Academic Bowl"], state='readonly')
         self.EventsDropdown.place(relx = 0.08, rely = 0.32)
@@ -610,7 +662,21 @@ class Results(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM student")
-            i=0 
+
+            column1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
+            column1.grid(row=0,column=0, sticky='w')
+            column2=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            column2.grid(row=0,column=1, sticky='w')
+            column3=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            column3.grid(row=0,column=2, sticky='w')
+            column4=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            column4.grid(row=0,column=3, sticky='w')
+            column5=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            column5.grid(row=0,column=4, sticky='w')
+            column6=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            column6.grid(row=0,column=5, sticky='w')
+
+            i=1 
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -650,7 +716,7 @@ class Results(tk.Frame):
         self.ViewResultsLabel = ttk.Label(master=self.frame_right,
                                               text="View Results",
                                               font=("Roboto Medium", 20),
-                                              background='#ebebeb')
+                                              background='#d1d5d8')
         self.ViewResultsLabel.place(relx = 0.5, rely = 0.05, anchor='center')
 
         
@@ -668,7 +734,7 @@ class Results(tk.Frame):
                 
                 i=0 
                 for student in my_conn:
-                    mb.showinfo("Top Winner", "Congratulations to " + student[0] + " " + student[1] + " who received " + str(student[2])  + " points")
+                    mb.showinfo("Top Winner", "Congratulations to our winner " + student[0] + " " + student[1] + " who received " + str(student[2])  + " points")
                     i=i+1
             except:
                 my_connect.rollback()
@@ -693,7 +759,21 @@ class Results(tk.Frame):
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("select s.FirstName, s.LastName, s.Grade, s.Age, s.GPA, count(et.StudentID) as TotalPoints from eventtracker et inner join student s on et.StudentID=s.StudentID group by et.StudentID order by s.Grade, s.FirstName, s.LastName")
-            i=0 
+             
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader2.grid(row=0,column=1, sticky='w')
+            columnHeader3=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            columnHeader3.grid(row=0,column=2, sticky='w')
+            columnHeader4=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            columnHeader4.grid(row=0,column=3, sticky='w')
+            columnHeader5=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader5.grid(row=0,column=4, sticky='w')
+            columnHeader6=Label(my_w,width=10,text='Total Points',borderwidth=0, anchor='w')
+            columnHeader6.grid(row=0,column=5, sticky='w')
+
+            i=1
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=15, fg='blue') 
