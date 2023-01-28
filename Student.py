@@ -547,7 +547,7 @@ class Event(tk.Frame):
                                             font=("Roboto Medium", 8),
                                             background='#ebebeb')
         self.EventsLabel.place(relx = 0.08, rely = 0.26)
-        self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Painting Competition", "Academic Bowl"], state='readonly')
+        self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Tutoring", "Academic Bowl", "Tutor Students"], state='readonly')
         self.EventsDropdown.place(relx = 0.08, rely = 0.32)
         self.EventsDropdown.set('Select an Event')
 
