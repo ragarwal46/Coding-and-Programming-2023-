@@ -12,7 +12,6 @@ customtkinter.set_appearance_mode("Light")  # Modes: "System" (standard), "Dark"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-
 class tkinterApp(tk.Tk):
      
     # __init__ function for class tkinterApp
@@ -53,7 +52,6 @@ class tkinterApp(tk.Tk):
     def show_frame(self, cont):  
         frame = self.frames[cont]  
         frame.tkraise()
-
 
 
 class Home(tk.Frame):
@@ -148,8 +146,6 @@ class Home(tk.Frame):
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
         self.showResults.grid(row=6, column=0, pady=20, padx=20)
-      
-
         
         
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
