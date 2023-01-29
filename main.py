@@ -81,10 +81,14 @@ class Home(tk.Frame):
         self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+        self.image_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
+        self.image_label.grid(row = 1, column = 0, pady = 10, padx = 10)
+        
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
                                               text_font=("Roboto Medium", -16))  # font name and size in px
-        self.actionsLabel.grid(row=1, column=0, pady=10, padx=10)
+        self.actionsLabel.grid(row=2, column=0, pady=10, padx=10)
 
         def open_stuent_table():
             my_w = tk.Tk()
@@ -123,38 +127,38 @@ class Home(tk.Frame):
         self.showHome = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
-        self.showHome.grid(row=2, column=0, pady=20, padx=20)
+        self.showHome.grid(row=3, column=0, pady=20, padx=20)
 
 
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.grid(row=4, column=0, pady=20, padx=20)
 
         
         self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
+        self.showAddStudent.grid(row=5, column=0, pady=20, padx=20)
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
-        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
+        self.showEvent.grid(row=6, column=0, pady=20, padx=20, sticky="n")
 
         self.showResults = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
-        self.showResults.grid(row=6, column=0, pady=20, padx=20)
+        self.showResults.grid(row=7, column=0, pady=20, padx=20)
         
         
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=9, column=0, pady=0, padx=20, sticky="w")
+        self.label_mode.grid(row=8, column=0, pady=0, padx=20, sticky="w")
 
         self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
                                                         values=["Light", "Dark", "System"],
                                                         command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=10, column=0, pady=10, padx=20, sticky="w")
+        self.optionmenu_1.grid(row=9, column=0, pady=10, padx=20, sticky="w")
 
         # ============ frame_right ============
 
@@ -210,7 +214,7 @@ class Home(tk.Frame):
             self.image_label.config(image=self.image7)
             self.current_image +=1
         else:
-            self.current_image = 0
+            self.current_image = 1
             self.image_label.config(image=self.image1)
     def on_back(self):
         if self.current_image == 0:
