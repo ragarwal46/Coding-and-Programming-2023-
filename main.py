@@ -8,7 +8,6 @@ import mysql.connector
 from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
-customtkinter.set_appearance_mode("Light")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
@@ -150,17 +149,7 @@ class Home(tk.Frame):
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
         self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
-        
-        
-        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
 
-        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
-                                                        values=["Light", "Dark", "System"],
-                                                        command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
-
-        
 
         # ============ frame_right ============
 
@@ -185,9 +174,7 @@ class Home(tk.Frame):
         self.image6 = ImageTk.PhotoImage(Image.open("pic6.png"))
         self.image7 = ImageTk.PhotoImage(Image.open("pic7.png"))
 
-
-
-        
+ 
         self.image_label = Label(master=self.frame_right, image=self.image1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
         self.current_image = 1
@@ -252,13 +239,6 @@ class Home(tk.Frame):
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
 
-
-    def change_appearance_mode(self, new_appearance_mode):
-        customtkinter.set_appearance_mode(new_appearance_mode)
-
-    # set default values
-    #self.optionmenu_1.set("Dark")
-    #self.addstudent.set("Student")
 class AddStudent(tk.Frame):
      
     def __init__(self, parent, controller):
@@ -355,16 +335,6 @@ class AddStudent(tk.Frame):
                                                 command=lambda: controller.show_frame(Results))
         self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
         
-        
-        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
-
-        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
-                                                        values=["Light", "Dark", "System"],
-                                                        command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
-
-        
         self.Label = ttk.Label(master=self.frame_right,
                                               text="Add Student",
                                               font=("Roboto Medium", 20),
@@ -440,11 +410,7 @@ class AddStudent(tk.Frame):
 
 
         self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add', command=add_student_db)
-        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
-
-    def change_appearance_mode(self, new_appearance_mode):
-        customtkinter.set_appearance_mode(new_appearance_mode)
-    
+        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')    
 
 class Event(tk.Frame):      
     def __init__(self, parent, controller):
@@ -540,15 +506,7 @@ class Event(tk.Frame):
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
         self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
-        
-        
-        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
 
-        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
-                                                        values=["Light", "Dark", "System"],
-                                                        command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
 
         self.Label = ttk.Label(master=self.frame_right,
                                               text="Assign an Event",
@@ -739,8 +697,6 @@ class Event(tk.Frame):
         self.ReccomendationsForKidsWhoCanTutorButton = customtkinter.CTkButton(master = self.frame_right, text = 'Students Available To Tutor', command=studentsAvaliableToTutor)
         self.ReccomendationsForKidsWhoCanTutorButton.place(relx = 0.67, rely = 0.32)
 
-    def change_appearance_mode(self, new_appearance_mode):
-        customtkinter.set_appearance_mode(new_appearance_mode)
 
 
 class Results(tk.Frame):
@@ -838,16 +794,6 @@ class Results(tk.Frame):
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
         self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
-        
-        
-        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
-
-        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
-                                                        values=["Light", "Dark", "System"],
-                                                        command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
-
 
         self.ViewResultsLabel = ttk.Label(master=self.frame_right,
                                               text="View Results",
@@ -965,9 +911,6 @@ class Results(tk.Frame):
 
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
-    
-    def change_appearance_mode(self, new_appearance_mode):
-        customtkinter.set_appearance_mode(new_appearance_mode)
 
 def on_closing(self, event=0):
         self.destroy()
