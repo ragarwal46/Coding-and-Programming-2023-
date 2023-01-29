@@ -21,7 +21,7 @@ class tkinterApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
 
-        self.geometry("1000x600")
+        self.geometry("1000x625")
         self.title("Alliance Academy For Innovation Student Event Tracker")
         container = tk.Frame(self)
         container.pack(expand = True, fill = "both")
@@ -83,12 +83,12 @@ class Home(tk.Frame):
 
         self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
         self.image_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
-        self.image_label.grid(row = 1, column = 0, pady = 10, padx = 10)
+        self.image_label.grid(row = 0, column = 0, pady = 10, padx = 10)
         
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
                                               text_font=("Roboto Medium", -16))  # font name and size in px
-        self.actionsLabel.grid(row=2, column=0, pady=10, padx=10)
+        self.actionsLabel.grid(row=1, column=0, pady=10, padx=10)
 
         def open_stuent_table():
             my_w = tk.Tk()
@@ -101,7 +101,7 @@ class Home(tk.Frame):
 
             my_conn = my_connect.cursor()
             ####### end of connection ####
-            my_conn.execute("SELECT * FROM student")
+            my_conn.execute("SELECT * FROM student ORDER BY Grade")
 
             columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
             columnHeader1.grid(row=0,column=0, sticky='w')
@@ -127,38 +127,40 @@ class Home(tk.Frame):
         self.showHome = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
-        self.showHome.grid(row=3, column=0, pady=20, padx=20)
+        self.showHome.grid(row=2, column=0, pady=20, padx=20, sticky="n")
 
 
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.ViewStudentTableButton.grid(row=4, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
 
         
         self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudent.grid(row=5, column=0, pady=20, padx=20)
+        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20, sticky="n")
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
-        self.showEvent.grid(row=6, column=0, pady=20, padx=20, sticky="n")
+        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
         self.showResults = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
-        self.showResults.grid(row=7, column=0, pady=20, padx=20)
+        self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
         
         
         self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
-        self.label_mode.grid(row=8, column=0, pady=0, padx=20, sticky="w")
+        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
 
         self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
                                                         values=["Light", "Dark", "System"],
                                                         command=self.change_appearance_mode)
-        self.optionmenu_1.grid(row=9, column=0, pady=10, padx=20, sticky="w")
+        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
+
+        
 
         # ============ frame_right ============
 
@@ -263,6 +265,7 @@ class AddStudent(tk.Frame):
          
         tk.Frame.__init__(self, parent)
   
+        # configure grid layout (2x1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -282,10 +285,9 @@ class AddStudent(tk.Frame):
         self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
-        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
-        self.frame_right.rowconfigure(7, weight=10)
-        self.frame_right.columnconfigure((0, 1, 2), weight=1)
-        self.frame_right.columnconfigure(3, weight=0)
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+        self.image_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
+        self.image_label.grid(row = 0, column = 0, pady = 10, padx = 10)
         
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
@@ -303,7 +305,7 @@ class AddStudent(tk.Frame):
 
             my_conn = my_connect.cursor()
             ####### end of connection ####
-            my_conn.execute("SELECT * FROM student")
+            my_conn.execute("SELECT * FROM student ORDER BY Grade")
 
             columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
             columnHeader1.grid(row=0,column=0, sticky='w')
@@ -318,7 +320,7 @@ class AddStudent(tk.Frame):
             columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
             columnHeader1.grid(row=0,column=5, sticky='w')
 
-            i=1 
+            i=1
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -329,36 +331,45 @@ class AddStudent(tk.Frame):
         self.showHome = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
-        self.showHome.grid(row=2, column=0, pady=20, padx=20)
+        self.showHome.grid(row=2, column=0, pady=20, padx=20, sticky="n")
 
 
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
 
         
         self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
+        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20, sticky="n")
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
-        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
-
-
-        self.AddStudentLabel = ttk.Label(master=self.frame_right,
-                                              text="Add Student",
-                                              font=("Roboto Medium", 20),
-                                              background='#d1d5d8')
-        self.AddStudentLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
         self.showResults = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
-        self.showResults.grid(row=6, column=0, pady=20, padx=20)
+        self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
+        
+        
+        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
+        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
+
+        
+        self.Label = ttk.Label(master=self.frame_right,
+                                              text="Add Student",
+                                              font=("Roboto Medium", 20),
+                                              background='#d1d5d8')
+        self.Label.place(relx = 0.5, rely = 0.07, anchor='center')
 
         #Name Fields
         self.name = ttk.Label(master=self.frame_right,
@@ -431,11 +442,16 @@ class AddStudent(tk.Frame):
         self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add', command=add_student_db)
         self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')
 
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
+    
+
 class Event(tk.Frame):      
-     def __init__(self, parent, controller):
+    def __init__(self, parent, controller):
          
         tk.Frame.__init__(self, parent)
   
+        # configure grid layout (2x1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -455,10 +471,9 @@ class Event(tk.Frame):
         self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
-        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
-        self.frame_right.rowconfigure(7, weight=10)
-        self.frame_right.columnconfigure((0, 1, 2), weight=1)
-        self.frame_right.columnconfigure(3, weight=0)
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+        self.image_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
+        self.image_label.grid(row = 0, column = 0, pady = 10, padx = 10)
         
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
@@ -476,7 +491,7 @@ class Event(tk.Frame):
 
             my_conn = my_connect.cursor()
             ####### end of connection ####
-            my_conn.execute("SELECT * FROM student")
+            my_conn.execute("SELECT * FROM student ORDER BY Grade")
 
             columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
             columnHeader1.grid(row=0,column=0, sticky='w')
@@ -491,7 +506,7 @@ class Event(tk.Frame):
             columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
             columnHeader1.grid(row=0,column=5, sticky='w')
 
-            i=1 
+            i=1
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -502,31 +517,44 @@ class Event(tk.Frame):
         self.showHome = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
-        self.showHome.grid(row=2, column=0, pady=20, padx=20)
+        self.showHome.grid(row=2, column=0, pady=20, padx=20, sticky="n")
 
 
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
 
         
         self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
+        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20, sticky="n")
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
-        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
+        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
-        self.AssignEventLabel = ttk.Label(master=self.frame_right,
+        self.showResults = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Results",
+                                                command=lambda: controller.show_frame(Results))
+        self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
+        
+        
+        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
+        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
+
+        self.Label = ttk.Label(master=self.frame_right,
                                               text="Assign an Event",
                                               font=("Roboto Medium", 20),
                                               background='#d1d5d8')
-        self.AssignEventLabel.place(relx = 0.5, rely = 0.05, anchor='center')
-
+        self.Label.place(relx = 0.5, rely = 0.07, anchor='center')
 
         def open_event_table():
             my_w = tk.Tk()
@@ -536,7 +564,7 @@ class Event(tk.Frame):
             passwd="Aai#1Database",
             database="studentdb"
             )
-
+            
             my_conn = my_connect.cursor()
             ####### end of connection ####
             my_conn.execute("SELECT * FROM event")
@@ -561,109 +589,28 @@ class Event(tk.Frame):
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_right,
                                                 text="View Events Table",
                                                 command=open_event_table)
-        self.ViewStudentTableButton.place(relx = 0.08, rely = 0.03)
-
-        self.showResults = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Results",
-                                                command=lambda: controller.show_frame(Results))
-        self.showResults.grid(row=6, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.place(relx = 0.08, rely = 0.13)
         
         #Student ID Fields
         self.StudentIDLabel = ttk.Label(master=self.frame_right,
                                                 text="Student ID",
                                                 font=("Roboto Medium", 8),
                                                 background='#d1d5d8')
-        self.StudentIDLabel.place(relx = 0.08, rely = 0.13)
+        self.StudentIDLabel.place(relx = 0.08, rely = 0.23)
 
         self.StudentID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Student ID', text_color='black')
-        self.StudentID.place(relx = 0.08, rely = 0.19)
+        self.StudentID.place(relx = 0.08, rely = 0.29)
 
 
         #Events fields
         self.EventsLabel = ttk.Label(master = self.frame_right, text = "Events",
                                             font=("Roboto Medium", 8),
                                             background='#d1d5d8')
-        self.EventsLabel.place(relx = 0.08, rely = 0.26)
+        self.EventsLabel.place(relx = 0.08, rely = 0.36)
+
         self.EventsDropdown = customtkinter.CTkComboBox(master = self.frame_right, values=["Basketball", "Football", "Baseball", "Golf", "Soccer", "Band Competition", "Robotics", "Technology Competition", "Needs Tutoring", "Tutor Peers"], state='readonly')
-        self.EventsDropdown.place(relx = 0.08, rely = 0.32)
+        self.EventsDropdown.place(relx = 0.08, rely = 0.42)
         self.EventsDropdown.set('Select an Event')
-
-        def showRecomendationForStudentsThatNeedTutoring():
-            my_w = tk.Tk()
-            my_connect = mysql.connector.connect(
-            host="localhost",
-            user="root", 
-            passwd="Aai#1Database",
-            database="studentdb"
-            )
-
-            try:
-                my_conn = my_connect.cursor()
-                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA < (SELECT avg(GPA) from Student)")
-                
-
-                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
-                column1.grid(row=0,column=0, sticky='w')
-                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
-                column2.grid(row=0,column=1, sticky='w')
-                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
-                column3.grid(row=0,column=2, sticky='w')
-
-                i=1 
-                for student in my_conn: 
-                    for j in range(len(student)):
-                        e = Entry(my_w, width=25, fg='blue') 
-                        e.grid(row=i, column=j) 
-                        e.insert(END, student[j])
-                    i=i+1
-
-            except:
-                my_connect.rollback()
-                mb.showerror("Failed", "Reccomendations could not be found")
-
-        def showRecomendationForStudentsThatAreEligableToTutor():
-            my_w = tk.Tk()
-            my_connect = mysql.connector.connect(
-            host="localhost",
-            user="root", 
-            passwd="Aai#1Database",
-            database="studentdb"
-            )
-
-            try:
-                my_conn = my_connect.cursor()
-                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA > (SELECT avg(GPA) from Student)")
-                
-
-                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
-                column1.grid(row=0,column=0, sticky='w')
-                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
-                column2.grid(row=0,column=1, sticky='w')
-                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
-                column3.grid(row=0,column=2, sticky='w')
-
-                i=1 
-                for student in my_conn: 
-                    for j in range(len(student)):
-                        e = Entry(my_w, width=25, fg='blue') 
-                        e.grid(row=i, column=j) 
-                        e.insert(END, student[j])
-                    i=i+1
-
-            except:
-                my_connect.rollback()
-                mb.showerror("Failed", "Reccomendations could not be found")
-        
-        self.recomendationLabel = ttk.Label(master = self.frame_right, text = "Recomended Events For: ",
-                                            font=("Roboto Medium", 8),
-                                            background='#d1d5d8')
-        self.recomendationLabel.place(relx = 0.7, rely = 0.13)
-
-        self.ReccomendationsForKidsWhoNeedTutoringButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations For Kids Who May Need Tutoring', command=showRecomendationForStudentsThatNeedTutoring)
-        self.ReccomendationsForKidsWhoNeedTutoringButton.place(relx = 0.6, rely = 0.19)
-
-        self.ReccomendationsForKidsWhoCanTutorButton = customtkinter.CTkButton(master = self.frame_right, text = 'Reccomendations For Kids Who can Tutor', command=showRecomendationForStudentsThatAreEligableToTutor)
-        self.ReccomendationsForKidsWhoCanTutorButton.place(relx = 0.65, rely = 0.3)
 
         def assign_event_db():
             my_connect = mysql.connector.connect(
@@ -708,11 +655,93 @@ class Event(tk.Frame):
                     mb.showinfo("Success", "Event Assigned")
             except:
                 my_connect.rollback()
-                mb.showerror("Failed", "Event was not assigned")
+                mb.showerror("Failed", "Event was not assigned.\nPlease ensure the Student ID is correct.")
 
 
         self.assignEventbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Assign', command=assign_event_db)
-        self.assignEventbutton.place(relx = 0.08, rely = 0.45)
+        self.assignEventbutton.place(relx = 0.08, rely = 0.55)
+    
+
+        def studentsWhoNeedTutoring():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                my_conn = my_connect.cursor()
+                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA < (SELECT avg(GPA) from Student) ORDER BY GPA Desc")
+                
+
+                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+                column1.grid(row=0,column=0, sticky='w')
+                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+                column2.grid(row=0,column=1, sticky='w')
+                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+                column3.grid(row=0,column=2, sticky='w')
+
+                i=1 
+                for student in my_conn: 
+                    for j in range(len(student)):
+                        e = Entry(my_w, width=25, fg='blue') 
+                        e.grid(row=i, column=j) 
+                        e.insert(END, student[j])
+                    i=i+1
+
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Reccomendations could not be found")
+
+        def studentsAvaliableToTutor():
+            my_w = tk.Tk()
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                my_conn = my_connect.cursor()
+                my_conn.execute("SELECT FirstName, LastName, GPA FROM student WHERE GPA > (SELECT avg(GPA) from Student) ORDER BY GPA Desc")
+                
+
+                column1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+                column1.grid(row=0,column=0, sticky='w')
+                column2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+                column2.grid(row=0,column=1, sticky='w')
+                column3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+                column3.grid(row=0,column=2, sticky='w')
+
+                i=1 
+                for student in my_conn: 
+                    for j in range(len(student)):
+                        e = Entry(my_w, width=25, fg='blue') 
+                        e.grid(row=i, column=j) 
+                        e.insert(END, student[j])
+                    i=i+1
+
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Reccomendations could not be found")
+        
+        self.recomendationLabel = ttk.Label(master = self.frame_right, text = "Recomended Events For: ",
+                                            font=("Roboto Medium", 8),
+                                            background='#d1d5d8')
+        self.recomendationLabel.place(relx = 0.67, rely = 0.13)
+
+        self.ReccomendationsForKidsWhoNeedTutoringButton = customtkinter.CTkButton(master = self.frame_right, text = 'Students Who Need Tutoring', command=studentsWhoNeedTutoring)
+        self.ReccomendationsForKidsWhoNeedTutoringButton.place(relx = 0.67, rely = 0.19)
+
+        self.ReccomendationsForKidsWhoCanTutorButton = customtkinter.CTkButton(master = self.frame_right, text = 'Students Available To Tutor', command=studentsAvaliableToTutor)
+        self.ReccomendationsForKidsWhoCanTutorButton.place(relx = 0.67, rely = 0.32)
+
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
+
 
 class Results(tk.Frame):
      
@@ -720,6 +749,7 @@ class Results(tk.Frame):
          
         tk.Frame.__init__(self, parent)
   
+        # configure grid layout (2x1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -739,10 +769,9 @@ class Results(tk.Frame):
         self.frame_left.grid_rowconfigure(8, minsize=20)  # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)  # empty row with minsize as spacing
 
-        self.frame_right.rowconfigure((0, 1, 2, 3), weight=1)
-        self.frame_right.rowconfigure(7, weight=10)
-        self.frame_right.columnconfigure((0, 1, 2), weight=1)
-        self.frame_right.columnconfigure(3, weight=0)
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+        self.image_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
+        self.image_label.grid(row = 0, column = 0, pady = 10, padx = 10)
         
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
@@ -760,22 +789,22 @@ class Results(tk.Frame):
 
             my_conn = my_connect.cursor()
             ####### end of connection ####
-            my_conn.execute("SELECT * FROM student")
+            my_conn.execute("SELECT * FROM student ORDER BY Grade")
 
-            column1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
-            column1.grid(row=0,column=0, sticky='w')
-            column2=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
-            column2.grid(row=0,column=1, sticky='w')
-            column3=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
-            column3.grid(row=0,column=2, sticky='w')
-            column4=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
-            column4.grid(row=0,column=3, sticky='w')
-            column5=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
-            column5.grid(row=0,column=4, sticky='w')
-            column6=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
-            column6.grid(row=0,column=5, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Student ID',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=1, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=2, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=3, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=4, sticky='w')
+            columnHeader1=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=5, sticky='w')
 
-            i=1 
+            i=1
             for student in my_conn: 
                 for j in range(len(student)):
                     e = Entry(my_w, width=20, fg='blue') 
@@ -786,37 +815,45 @@ class Results(tk.Frame):
         self.showHome = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
-        self.showHome.grid(row=2, column=0, pady=20, padx=20)
+        self.showHome.grid(row=2, column=0, pady=20, padx=20, sticky="n")
 
 
         self.ViewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20)
+        self.ViewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
 
         
         self.showAddStudent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20)
+        self.showAddStudent.grid(row=4, column=0, pady=20, padx=20, sticky="n")
         
         self.showEvent = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(Event))
-        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="n")
-
+        self.showEvent.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
         self.showResults = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
                                                 command=lambda: controller.show_frame(Results))
-        self.showResults.grid(row=6, column=0, pady=20, padx=20)
+        self.showResults.grid(row=6, column=0, pady=20, padx=20, sticky="n")
+        
+        
+        self.label_mode = customtkinter.CTkLabel(master=self.frame_left, text="Appearance Mode:")
+        self.label_mode.grid(row=7, column=0, pady=0, padx=20, sticky="s")
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=8, column=0, pady=10, padx=20, sticky="s")
 
 
         self.ViewResultsLabel = ttk.Label(master=self.frame_right,
                                               text="View Results",
                                               font=("Roboto Medium", 20),
                                               background='#d1d5d8')
-        self.ViewResultsLabel.place(relx = 0.5, rely = 0.05, anchor='center')
+        self.ViewResultsLabel.place(relx = 0.5, rely = 0.07, anchor='center')
 
         
         def showTopWinner():
@@ -843,7 +880,53 @@ class Results(tk.Frame):
         self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showTopWinner)
         self.topWinnerButton.place(relx = 0.1, rely = 0.13)
 
-        self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner')
+
+        def showRandomWinner():
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                randomWinners = ""
+                my_conn = my_connect.cursor()
+                my_conn.execute("select FirstName, LastName, Grade from student where grade=9 ORDER BY RAND() Limit 1")
+                
+                i=0 
+                for winner in my_conn:
+                    randomWinners = winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    i=i+1
+
+                my_conn.execute("select FirstName, LastName, Grade from student where grade=10 ORDER BY RAND() Limit 1")
+                
+                i=0 
+                for winner in my_conn:
+                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    i=i+1
+
+                my_conn.execute("select FirstName, LastName, Grade from student where grade=11 ORDER BY RAND() Limit 1")
+                
+                i=0 
+                for winner in my_conn:
+                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    i=i+1
+
+                my_conn.execute("select FirstName, LastName, Grade from student where grade=12 ORDER BY RAND() Limit 1")
+                
+                i=0 
+                for winner in my_conn:
+                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade"
+                    i=i+1
+
+                mb.showinfo("Random Winners", randomWinners)
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Random winner could not be found")
+
+
+        self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner', command=showRandomWinner)
         self.randomWinnerButton.place(relx = 0.4, rely = 0.13)
 
         def showQuarterlyReport():
@@ -882,7 +965,9 @@ class Results(tk.Frame):
 
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
-
+    
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
 
 def on_closing(self, event=0):
         self.destroy()
