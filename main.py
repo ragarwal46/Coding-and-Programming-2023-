@@ -896,28 +896,28 @@ class Results(tk.Frame):
                 
                 i=0 
                 for winner in my_conn:
-                    randomWinners = winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    randomWinners = "9th Grade Winner: " + winner[0] + " " + winner[1] + "\n"
                     i=i+1
 
                 my_conn.execute("select FirstName, LastName, Grade from student where grade=10 ORDER BY RAND() Limit 1")
                 
                 i=0 
                 for winner in my_conn:
-                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    randomWinners += "10th Grade Winner: " + winner[0] + " " + winner[1] + "\n"
                     i=i+1
 
                 my_conn.execute("select FirstName, LastName, Grade from student where grade=11 ORDER BY RAND() Limit 1")
                 
                 i=0 
                 for winner in my_conn:
-                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade\n"
+                    randomWinners += "11th Grade Winner: " + winner[0] + " " + winner[1] + "\n"
                     i=i+1
 
                 my_conn.execute("select FirstName, LastName, Grade from student where grade=12 ORDER BY RAND() Limit 1")
                 
                 i=0 
                 for winner in my_conn:
-                    randomWinners += winner[0] + " " + winner[1] + " is the winner for " + str(winner[2]) + " grade"
+                    randomWinners += "12th Grade Winner: " + winner[0] + " " + winner[1]
                     i=i+1
 
                 mb.showinfo("Random Winners", randomWinners)
