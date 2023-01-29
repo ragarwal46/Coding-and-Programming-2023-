@@ -600,9 +600,9 @@ class Event(tk.Frame):
                         EventIDSelected = 7
                     elif(self.EventsDropdown.get() == "Technology Competition"):
                         EventIDSelected = 8
-                    elif(self.EventsDropdown.get() == "Painting Competition"):
+                    elif(self.EventsDropdown.get() == "Needs Tutoring"):
                         EventIDSelected = 9
-                    elif(self.EventsDropdown.get() == "Academic Bowl"):
+                    elif(self.EventsDropdown.get() == "Tutor Peers"):
                         EventIDSelected = 10
 
 
