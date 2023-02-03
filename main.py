@@ -369,9 +369,30 @@ class AddStudent(tk.Frame):
                                             font=("Roboto Medium", 8),
                                             background='#d1d5d8')
         self.grade.place(relx = 0.08, rely = 0.42)
-        self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
-        self.gradelvl.place(relx = 0.08, rely = 0.48)
-        self.gradelvl.set('Grade')
+
+
+        #css = ttk.Style()
+        #css.configure('Gray.TRadiobutton')
+
+        gradeNum = tk.StringVar()
+        
+        self.gradeRadio9 = ttk.Radiobutton(master = self.frame_right, text="9th Grade", value='9', variable=gradeNum)
+        self.gradeRadio9.place(relx = 0.08, rely = 0.48)
+
+        self.gradeRadio10 = ttk.Radiobutton(master = self.frame_right, text="10th Grade", value='10', variable=gradeNum)
+        self.gradeRadio10.place(relx = 0.23, rely = 0.48)
+
+        self.gradeRadio11 = ttk.Radiobutton(master = self.frame_right, text="11th Grade", value='11', variable=gradeNum)
+        self.gradeRadio11.place(relx = 0.08, rely = 0.55)
+
+        self.gradeRadio12 = ttk.Radiobutton(master = self.frame_right, text="12th Grade", value='12', variable=gradeNum)
+        self.gradeRadio12.place(relx = 0.23, rely = 0.55)
+
+
+
+        #self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
+        #self.gradelvl.place(relx = 0.5, rely = 0.48)
+        #self.gradelvl.set('Grade')
         
 
         #GPA fields
@@ -379,10 +400,10 @@ class AddStudent(tk.Frame):
                                             text = 'GPA (Unweighted)',
                                             font=('Roboto Medium', 8),
                                             background='#d1d5d8')
-        self.gpalabel.place(relx = 0.08, rely = 0.6)
+        self.gpalabel.place(relx = 0.08, rely = 0.63)
 
         self.gpa = customtkinter.CTkEntry(master = self.frame_right, width = 100, placeholder_text= 'GPA', text_color='black')
-        self.gpa.place(relx = 0.08, rely = 0.66)
+        self.gpa.place(relx = 0.08, rely = 0.69)
         
         
         def add_student_db():
@@ -394,14 +415,14 @@ class AddStudent(tk.Frame):
             )
 
             try:
-                if self.fname.get() == '' or self.lname.get() == '' or self.gradelvl.get() == '' or self.age.get() == '' or self.gpa.get() == '':
+                if self.fname.get() == '' or self.lname.get() == '' or gradeNum.get() == '' or self.age.get() == '' or self.gpa.get() == '':
                     mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
                 elif float(self.gpa.get()) <= 0.0 or float(self.gpa.get()) > 4.0:
                     mb.showwarning("Error", "GPA must be between 0.0 and 4.0")
                 else:
                     #executing the sql command
                     my_conn = my_connect.cursor()
-                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + self.gradelvl.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
+                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + gradeNum.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
                     my_connect.commit()
                     mb.showinfo("Success", "Student added")
             except:
@@ -686,7 +707,7 @@ class Event(tk.Frame):
                 my_connect.rollback()
                 mb.showerror("Failed", "Reccomendations could not be found")
         
-        self.recomendationLabel = ttk.Label(master = self.frame_right, text = "Recomended Events For: ",
+        self.recomendationLabel = ttk.Label(master = self.frame_right, text = "Recomended Events: ",
                                             font=("Roboto Medium", 8),
                                             background='#d1d5d8')
         self.recomendationLabel.place(relx = 0.67, rely = 0.13)
