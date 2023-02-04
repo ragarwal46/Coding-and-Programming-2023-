@@ -717,6 +717,7 @@ class Results(tk.Frame):
             my_conn = my_connect.cursor()
             ReportSelection = ""
         
+            # This if sequence will allow us to filter our quarterly reports based on name, age, gradelvl, and gpa 
             if fNameVar.get() == "Show First Name":
                 ReportSelection += "s.FirstName,"
 
