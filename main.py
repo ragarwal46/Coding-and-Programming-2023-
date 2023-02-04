@@ -607,7 +607,7 @@ class Results(tk.Frame):
                 
                 i=0 
                 for student in my_conn:
-                    mb.showinfo("Top Winner", "Congratulations to our winner " + student[0] + " " + student[1] + " who received " + str(student[2])  + " points")
+                    mb.showinfo("Top Winner", "Congratulations to our winner " + student[0] + " " + student[1] + " who received " + str(student[2])  + " points.\n\n" + student[0] + " " + student[1] + " has received a Thanos Gauntlet.")
                     i=i+1
             except:
                 my_connect.rollback()
@@ -671,7 +671,7 @@ class Results(tk.Frame):
                     randomWinners += "12th Grade Winner: " + winner[0] + " " + winner[1]
                     i=i+1
 
-                mb.showinfo("Random Winners", randomWinners)
+                mb.showinfo("Random Winners", randomWinners + "\n\n" + "Our AAI Grade Winners have received a $10 Starbucks Gift Card as well as AAI Spirit Wear.")
             except:
                 my_connect.rollback()
                 mb.showerror("Failed", "Random winner could not be found")
