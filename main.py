@@ -19,7 +19,7 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
     
         # Configure grid layout (1x11)
         self.frame_left.grid_rowconfigure(0, minsize=10) 
-        self.frame_left.grid_rowconfigure(5, weight=1) 
+        self.frame_left.grid_rowconfigure(8, weight=1) 
         self.frame_left.grid_rowconfigure(8, minsize=20)
         self.frame_left.grid_rowconfigure(11, minsize=10)
 
@@ -97,6 +97,9 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
                                                 command=lambda: controller.show_frame(Results))
         self.showResultsButton.grid(row=6, column=0, pady=20, padx=20, sticky="n")
 
+        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Light", "Dark", "System"],
+                                                                       command=self.change_appearance_mode_event)
+        self.appearance_mode_optionemenu.grid(row=7, column=0, padx=20, pady=(10, 10))
 
 
 
@@ -137,6 +140,7 @@ class tkinterApp(tk.Tk):
     def show_frame(self, cont):  
         frame = self.frames[cont]  
         frame.tkraise()
+    
 
 
 class Home(tk.Frame):
@@ -703,7 +707,9 @@ class Results(tk.Frame):
 
             my_conn = my_connect.cursor()
             ReportSelection = ""
-        
+
+
+
             if fNameVar.get() == "Show First Name":
                 ReportSelection += "s.FirstName,"
 
@@ -734,6 +740,9 @@ class Results(tk.Frame):
 
 def on_closing(self, event=0):
         self.destroy()
+
+def change_appearance_mode_event(self, new_appearance_mode: str):
+    customtkinter.set_appearance_mode(new_appearance_mode)
 
 app = tkinterApp()
 app.mainloop()
