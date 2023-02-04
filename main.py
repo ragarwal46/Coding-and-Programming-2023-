@@ -23,7 +23,7 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         self.frame_left.grid_rowconfigure(11, minsize=10)
 
         # AAI School Logo
-        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+        self.logo = ImageTk.PhotoImage(Image.open("Pictures/logo.png"))
         self.logo_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
         self.logo_label.grid(row = 0, column = 0, pady = 10, padx = 10)
         
@@ -175,13 +175,13 @@ class Home(tk.Frame):
         
 
         # Creation of the Gallery located in the middle of the page
-        self.galleryImage1 = ImageTk.PhotoImage(Image.open("pic1.jpg"))
-        self.galleryImage2 = ImageTk.PhotoImage(Image.open("pic2.jpg"))
-        self.galleryImage3 = ImageTk.PhotoImage(Image.open("pic3.jpg"))
-        self.galleryImage4 = ImageTk.PhotoImage(Image.open("pic4.jpg"))
-        self.galleryImage5 = ImageTk.PhotoImage(Image.open("pic5.png"))
-        self.galleryImage6 = ImageTk.PhotoImage(Image.open("pic6.png"))
-        self.galleryImage7 = ImageTk.PhotoImage(Image.open("pic7.png"))
+        self.galleryImage1 = ImageTk.PhotoImage(Image.open("Pictures/pic1.jpg"))
+        self.galleryImage2 = ImageTk.PhotoImage(Image.open("Pictures/pic2.jpg"))
+        self.galleryImage3 = ImageTk.PhotoImage(Image.open("Pictures/pic3.jpg"))
+        self.galleryImage4 = ImageTk.PhotoImage(Image.open("Pictures/pic4.jpg"))
+        self.galleryImage5 = ImageTk.PhotoImage(Image.open("Pictures/pic5.png"))
+        self.galleryImage6 = ImageTk.PhotoImage(Image.open("Pictures/pic6.png"))
+        self.galleryImage7 = ImageTk.PhotoImage(Image.open("Pictures/pic7.png"))
  
         self.image_label = Label(master=self.frame_right, image=self.galleryImage1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
@@ -617,9 +617,9 @@ class Results(tk.Frame):
         self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showTopWinner)
         self.topWinnerButton.place(relx = 0.1, rely = 0.13)
 
-        self.prize1 = ImageTk.PhotoImage(Image.open("gauntlet.jpg"))
-        self.prize2 = ImageTk.PhotoImage(Image.open("tshirt.jpg"))
-        self.prize3 = ImageTk.PhotoImage(Image.open("gcard.jpg"))
+        self.prize1 = ImageTk.PhotoImage(Image.open("Pictures/gauntlet.jpg"))
+        self.prize2 = ImageTk.PhotoImage(Image.open("Pictures/tshirt.jpg"))
+        self.prize3 = ImageTk.PhotoImage(Image.open("Pictures/gcard.jpg"))
 
  
         self.gauntletlabel = Label(master=self.frame_right, image=self.prize1, bg = '#d1d5d8')
