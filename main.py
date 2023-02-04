@@ -11,11 +11,12 @@ from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
 customtkinter.set_default_color_theme("blue")  # This sets the default theme of the app
+customtkinter.set_appearance_mode("light")
 
 
 def showSidebar(self, parent, controller): # The purpose of this function is to have the sidebar displayed and be easily changeable
     # ============ frame_left ============
-
+    
         # Configure grid layout (1x11)
         self.frame_left.grid_rowconfigure(0, minsize=10) 
         self.frame_left.grid_rowconfigure(5, weight=1) 
@@ -170,7 +171,7 @@ class Home(tk.Frame):
         self.titleLabel = ttk.Label(master=self.frame_right,
                                               text="Welcome to the Alliance Academy Student Event Tracker",
                                               font=("Roboto Medium", 20),
-                                              background='#d1d5d8')
+                                              background='#60A3D9') # #d1d5d8 is the white color background
         self.titleLabel.place(relx = 0.5, rely = 0.1, anchor='center')
         
 
@@ -183,7 +184,7 @@ class Home(tk.Frame):
         self.galleryImage6 = ImageTk.PhotoImage(Image.open("pic6.png"))
         self.galleryImage7 = ImageTk.PhotoImage(Image.open("pic7.png"))
  
-        self.image_label = Label(master=self.frame_right, image=self.image1)
+        self.image_label = Label(master=self.frame_right, image=self.galleryImage1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
         self.current_image = 1
         self.nextButton = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
@@ -193,53 +194,53 @@ class Home(tk.Frame):
     
     def on_next(self):
         if self.current_image == 1:
-            self.image_label.config(image=self.image2)
+            self.image_label.config(image=self.galleryImage2)
             self.current_image +=1 
         elif self.current_image == 2:
-            self.image_label.config(image=self.image3)
+            self.image_label.config(image=self.galleryImage3)
             self.current_image +=1 
         elif self.current_image == 3:
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image +=1    
         elif self.current_image == 4:
-            self.image_label.config(image=self.image5)
+            self.image_label.config(image=self.galleryImage5)
             self.current_image +=1
         elif self.current_image == 5:
-            self.image_label.config(image=self.image6)
+            self.image_label.config(image=self.galleryImage6)
             self.current_image +=1
         elif self.current_image == 6:
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image +=1
         else:
             self.current_image = 1
-            self.image_label.config(image=self.image1)
+            self.image_label.config(image=self.galleryImage1)
     def on_back(self):
         if self.current_image == 0:
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image = 7 
         elif self.current_image == 1: 
-            self.image_label.config(image=self.image1)
+            self.image_label.config(image=self.galleryImage1)
             self.current_image -= 1 
         elif self.current_image == 2: 
-            self.image_label.config(image=self.image2)
+            self.image_label.config(image=self.galleryImage2)
             self.current_image -= 1
         elif self.current_image == 3: 
-            self.image_label.config(image=self.image3)
+            self.image_label.config(image=self.galleryImage3)
             self.current_image -= 1
         elif self.current_image == 4: 
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image -= 1
         elif self.current_image == 5: 
-            self.image_label.config(image=self.image5)
+            self.image_label.config(image=self.galleryImage5)
             self.current_image -= 1
         elif self.current_image == 6: 
-            self.image_label.config(image=self.image6)
+            self.image_label.config(image=self.galleryImage6)
             self.current_image -= 1
         elif self.current_image == 7: 
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image -= 1
         else:
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image -= 1
 
 
@@ -730,7 +731,6 @@ class Results(tk.Frame):
 
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
-
 
 def on_closing(self, event=0):
         self.destroy()
