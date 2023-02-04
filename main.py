@@ -370,10 +370,6 @@ class AddStudent(tk.Frame):
                                             background='#d1d5d8')
         self.grade.place(relx = 0.08, rely = 0.42)
 
-
-        #css = ttk.Style()
-        #css.configure('Gray.TRadiobutton')
-
         gradeNum = tk.StringVar()
         
         self.gradeRadio9 = ttk.Radiobutton(master = self.frame_right, text="9th Grade", value='9', variable=gradeNum)
@@ -387,12 +383,6 @@ class AddStudent(tk.Frame):
 
         self.gradeRadio12 = ttk.Radiobutton(master = self.frame_right, text="12th Grade", value='12', variable=gradeNum)
         self.gradeRadio12.place(relx = 0.23, rely = 0.55)
-
-
-
-        #self.gradelvl = customtkinter.CTkComboBox(master = self.frame_right, values=["9", "10", "11", "12"], state='readonly')
-        #self.gradelvl.place(relx = 0.5, rely = 0.48)
-        #self.gradelvl.set('Grade')
         
 
         #GPA fields
@@ -896,6 +886,32 @@ class Results(tk.Frame):
         self.randomWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Random Winner', command=showRandomWinner)
         self.randomWinnerButton.place(relx = 0.4, rely = 0.13)
 
+
+        fNameVar = tk.StringVar()
+        lNameVar = tk.StringVar()
+        ageVar = tk.StringVar()
+        gradeVar = tk.StringVar()
+        GPAVar = tk.StringVar()
+        pointsVar = tk.StringVar()
+
+        self.fNameCheck = ttk.Checkbutton(master = self.frame_right, text = 'Show First Name', onvalue='Show First Name', offvalue='Do Not Show First Name', variable=fNameVar)
+        self.fNameCheck.place(relx = 0.7, rely = 0.25)
+
+        self.lNameCheck = ttk.Checkbutton(master = self.frame_right, text = 'Show Last Name', onvalue='Show Last Name', offvalue='Do Not Show Last Name', variable=lNameVar)
+        self.lNameCheck.place(relx = 0.7, rely = 0.35)
+
+        self.GradeCheck = ttk.Checkbutton(master = self.frame_right, text = 'Show Grade', onvalue='Show Grade', offvalue='Do Not Show Grade', variable=gradeVar)
+        self.GradeCheck.place(relx = 0.7, rely = 0.45)
+
+        self.AgeCheck = ttk.Checkbutton(master = self.frame_right, text = 'Show Age', onvalue='Show Age', offvalue='Do Not Show Age', variable=ageVar)
+        self.AgeCheck.place(relx = 0.7, rely = 0.55)
+
+        self.GPACheck = ttk.Checkbutton(master = self.frame_right, text = 'Show GPA', onvalue='Show GPA', offvalue='Do Not Show GPA', variable=GPAVar)
+        self.GPACheck.place(relx = 0.7, rely = 0.65)
+
+        self.pointsCheck = ttk.Checkbutton(master = self.frame_right, text = 'Show Total Points', onvalue='Show Total Points', offvalue='Do Not Show Total Points', variable=pointsVar)
+        self.pointsCheck.place(relx = 0.7, rely = 0.75)
+
         def showQuarterlyReport():
             my_w = tk.Tk()
             my_connect = mysql.connector.connect(
@@ -906,21 +922,24 @@ class Results(tk.Frame):
             )
 
             my_conn = my_connect.cursor()
-            ####### end of connection ####
-            my_conn.execute("select s.FirstName, s.LastName, s.Grade, s.Age, s.GPA, count(et.StudentID) as TotalPoints from eventtracker et inner join student s on et.StudentID=s.StudentID group by et.StudentID order by s.Grade, s.FirstName, s.LastName")
-             
-            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
-            columnHeader1.grid(row=0,column=0, sticky='w')
-            columnHeader2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
-            columnHeader2.grid(row=0,column=1, sticky='w')
-            columnHeader3=Label(my_w,width=10,text='Grade',borderwidth=0, anchor='w')
-            columnHeader3.grid(row=0,column=2, sticky='w')
-            columnHeader4=Label(my_w,width=10,text='Age',borderwidth=0, anchor='w')
-            columnHeader4.grid(row=0,column=3, sticky='w')
-            columnHeader5=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
-            columnHeader5.grid(row=0,column=4, sticky='w')
-            columnHeader6=Label(my_w,width=10,text='Total Points',borderwidth=0, anchor='w')
-            columnHeader6.grid(row=0,column=5, sticky='w')
+            ReportSelection = ""
+        
+            if fNameVar.get() == "Show First Name":
+                ReportSelection += "s.FirstName,"
+
+            if lNameVar.get() == "Show Last Name":
+                ReportSelection += "s.LastName,"
+
+            if gradeVar.get() == "Show Grade":
+                ReportSelection += "s.Grade,"
+
+            if ageVar.get() == "Show Age":
+                ReportSelection += "s.Age,"
+
+            if GPAVar.get() == "Show GPA":
+                ReportSelection += "s.GPA,"
+
+            my_conn.execute("select " + ReportSelection + " count(et.StudentID) as TotalPoints from eventtracker et inner join student s on et.StudentID=s.StudentID group by et.StudentID order by s.Grade, s.FirstName, s.LastName")
 
             i=1
             for student in my_conn: 
@@ -932,6 +951,7 @@ class Results(tk.Frame):
 
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
+
 
 def on_closing(self, event=0):
         self.destroy()
