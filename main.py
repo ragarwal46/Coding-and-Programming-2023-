@@ -183,7 +183,7 @@ class Home(tk.Frame):
         self.galleryImage6 = ImageTk.PhotoImage(Image.open("pic6.png"))
         self.galleryImage7 = ImageTk.PhotoImage(Image.open("pic7.png"))
  
-        self.image_label = Label(master=self.frame_right, image=self.image1)
+        self.image_label = Label(master=self.frame_right, image=self.galleryImage1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
         self.current_image = 1
         self.nextButton = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
@@ -193,53 +193,53 @@ class Home(tk.Frame):
     
     def on_next(self):
         if self.current_image == 1:
-            self.image_label.config(image=self.image2)
+            self.image_label.config(image=self.galleryImage2)
             self.current_image +=1 
         elif self.current_image == 2:
-            self.image_label.config(image=self.image3)
+            self.image_label.config(image=self.galleryImage3)
             self.current_image +=1 
         elif self.current_image == 3:
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image +=1    
         elif self.current_image == 4:
-            self.image_label.config(image=self.image5)
+            self.image_label.config(image=self.galleryImage5)
             self.current_image +=1
         elif self.current_image == 5:
-            self.image_label.config(image=self.image6)
+            self.image_label.config(image=self.galleryImage6)
             self.current_image +=1
         elif self.current_image == 6:
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image +=1
         else:
             self.current_image = 1
-            self.image_label.config(image=self.image1)
+            self.image_label.config(image=self.galleryImage1)
     def on_back(self):
         if self.current_image == 0:
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image = 7 
         elif self.current_image == 1: 
-            self.image_label.config(image=self.image1)
+            self.image_label.config(image=self.galleryImage1)
             self.current_image -= 1 
         elif self.current_image == 2: 
-            self.image_label.config(image=self.image2)
+            self.image_label.config(image=self.galleryImage2)
             self.current_image -= 1
         elif self.current_image == 3: 
-            self.image_label.config(image=self.image3)
+            self.image_label.config(image=self.galleryImage3)
             self.current_image -= 1
         elif self.current_image == 4: 
-            self.image_label.config(image=self.image4)
+            self.image_label.config(image=self.galleryImage4)
             self.current_image -= 1
         elif self.current_image == 5: 
-            self.image_label.config(image=self.image5)
+            self.image_label.config(image=self.galleryImage5)
             self.current_image -= 1
         elif self.current_image == 6: 
-            self.image_label.config(image=self.image6)
+            self.image_label.config(image=self.galleryImage6)
             self.current_image -= 1
         elif self.current_image == 7: 
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image -= 1
         else:
-            self.image_label.config(image=self.image7)
+            self.image_label.config(image=self.galleryImage7)
             self.current_image -= 1
 
 
@@ -616,6 +616,20 @@ class Results(tk.Frame):
 
         self.topWinnerButton = customtkinter.CTkButton(master = self.frame_right, text = 'Top Winner', command=showTopWinner)
         self.topWinnerButton.place(relx = 0.1, rely = 0.13)
+
+        self.prize1 = ImageTk.PhotoImage(Image.open("gauntlet.jpg"))
+        self.prize2 = ImageTk.PhotoImage(Image.open("tshirt.jpg"))
+        self.prize3 = ImageTk.PhotoImage(Image.open("gcard.jpg"))
+
+ 
+        self.gauntletlabel = Label(master=self.frame_right, image=self.prize1, bg = '#d1d5d8')
+        self.gauntletlabel.place(relx = 0.2, rely = 0.572, anchor = 'center')
+
+        self.tshirtlabel = Label(master=self.frame_right, image=self.prize2, bg = '#d1d5d8')
+        self.tshirtlabel.place(relx = 0.47, rely = 0.75, anchor = 'center')
+
+        self.cardlabel = Label(master=self.frame_right, image=self.prize3, bg = '#d1d5d8')
+        self.cardlabel.place(relx = 0.47, rely = 0.4, anchor = 'center')
 
 
         def showRandomWinner(): # This function uses a random number generator to find a random student per grade level
