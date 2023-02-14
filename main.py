@@ -172,7 +172,7 @@ class Home(tk.Frame):
                                               text="Welcome to the Alliance Academy Student Event Tracker",
                                               font=("Roboto Medium", 20),
                                               background='#d1d5d8')
-        self.titleLabel.place(relx = 0.5, rely = 0.1, anchor='center')
+        self.titleLabel.place(relx = 0.5, rely = 0.05, anchor='center')
         
 
         # Creation of the Gallery located in the middle of the page
@@ -185,12 +185,42 @@ class Home(tk.Frame):
         self.galleryImage7 = ImageTk.PhotoImage(Image.open("Pictures/pic7.png"))
  
         self.image_label = Label(master=self.frame_right, image=self.galleryImage1)
-        self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
+        self.image_label.place(relx = 0.5, rely = 0.43, anchor = 'center')
         self.current_image = 1
         self.nextButton = customtkinter.CTkButton(master=self.frame_right, text=">", text_font=('arial', 15, 'bold'), command=self.on_next, width=25)
-        self.nextButton.place(relx = 0.91, rely = 0.525, anchor = 'center')
+        self.nextButton.place(relx = 0.91, rely = 0.43, anchor = 'center')
         self.previousButon = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
-        self.previousButon.place(relx = 0.09, rely = 0.525, anchor = 'center')
+        self.previousButon.place(relx = 0.09, rely = 0.43, anchor = 'center')
+
+        self.helpTitleLabel = ttk.Label(master=self.frame_right,
+                                                text="Help",
+                                                font=("Roboto Medium", 15),
+                                                background='#d1d5d8')
+        self.helpTitleLabel.place(relx = 0.1, rely = 0.77)
+
+        self.helpLabel1 = ttk.Label(master=self.frame_right,
+                                                text="View Student Table: This button launches a window that shows a list of all of the students with their associated information.",
+                                                font=("Roboto Medium", 10),
+                                                background='#d1d5d8')
+        self.helpLabel1.place(relx = 0.1, rely = 0.82)
+
+        self.helpLabel2 = ttk.Label(master=self.frame_right,
+                                                text="Add Student: Shows a form that allows you to enroll a new student into Alliance Academy.",
+                                                font=("Roboto Medium", 10),
+                                                background='#d1d5d8')
+        self.helpLabel2.place(relx = 0.1, rely = 0.86)
+
+        self.helpLabel3 = ttk.Label(master=self.frame_right,
+                                                text="Assign Events: Launches a page which shows a form that allows you to add events to any particular student.",
+                                                font=("Roboto Medium", 10),
+                                                background='#d1d5d8')
+        self.helpLabel3.place(relx = 0.1, rely = 0.90)
+
+        self.helpLabel4 = ttk.Label(master=self.frame_right,
+                                                text="Results: Shows a page with multiple buttons allowing you to view winners and reports.",
+                                                font=("Roboto Medium", 10),
+                                                background='#d1d5d8')
+        self.helpLabel4.place(relx = 0.1, rely = 0.94)
     
     def on_next(self):
         if self.current_image == 1:
@@ -242,7 +272,6 @@ class Home(tk.Frame):
         else:
             self.image_label.config(image=self.galleryImage7)
             self.current_image -= 1
-
 
         # configure grid layout (1x1)
         self.frame_info.rowconfigure(0, weight=1)
@@ -345,7 +374,8 @@ class AddStudent(tk.Frame):
                 else:
                     #executing the sql command
                     my_conn = my_connect.cursor()
-                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + gradeNum.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
+                    my_conn.execute("INSERT INTO student (FirstName, LastName, Grade, Age, GPA) Value ('" + self.fname.get() + "', '" + self.lname.get() + "', '" + 
+                                    gradeNum.get() + "',  '" + self.age.get() + "', '" + self.gpa.get() + "')")
                     my_connect.commit()
                     mb.showinfo("Success", "Student added")
             except:
@@ -718,7 +748,6 @@ class Results(tk.Frame):
             my_conn = my_connect.cursor()
             ReportSelection = ""
         
-            # This if sequence will allow us to filter our quarterly reports based on name, age, gradelvl, and gpa 
             if fNameVar.get() == "Show First Name":
                 ReportSelection += "s.FirstName,"
 
