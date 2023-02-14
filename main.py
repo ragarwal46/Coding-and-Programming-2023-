@@ -11,6 +11,7 @@ from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
 customtkinter.set_default_color_theme("blue")  # This sets the default theme of the app
+customtkinter.set_appearance_mode("light")
 
 
 def showSidebar(self, parent, controller): # The purpose of this function is to have the sidebar displayed and be easily changeable
@@ -88,12 +89,12 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         
         self.showEventButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
-                                                command=lambda: controller.show_frame(Event))
+                                                command=lambda: controller.show_frame(logInView)) #should be Event but for now I am trying to test the log in page
         self.showEventButton.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
         self.showResultsButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
-                                                command=lambda: controller.show_frame(Results))
+                                                command=lambda: controller.show_frame(studentView)) #show_frame(Results) is the actual command. On the side for testing sutdent view page
         self.showResultsButton.grid(row=6, column=0, pady=20, padx=20, sticky="n")
 
 
@@ -122,7 +123,7 @@ class tkinterApp(tk.Tk):
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, AddStudent, Event, Results):
+        for F in (Home, AddStudent, Event, Results, studentView, logInView):
   
             frame = F(container, self)
   
@@ -746,9 +747,58 @@ class Results(tk.Frame):
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
 
+class studentView(tk.Frame):
+     
+    def __init__(self, parent, controller):
+         
+        tk.Frame.__init__(self, parent)
+  
+        # configure grid layout (2x1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_right = customtkinter.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+        
+        self.titleLabel = ttk.Label(master=self.frame_right,
+                                              text="Welcome Student",
+                                              font=("Roboto Medium", 20),
+                                              background='#d1d5d8')
+        self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
+
+        # Name Fields
+
+class logInView(tk.Frame):
+     
+    def __init__(self, parent, controller):
+         
+        tk.Frame.__init__(self, parent)
+  
+        # configure grid layout (2x1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_right = customtkinter.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+        
+        self.titleLabel = ttk.Label(master=self.frame_right,
+                                              text="Welcome To the Alliance Event Tracker!",
+                                              font=("Roboto Medium", 30),
+                                              background='#d1d5d8')
+        self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
+
+        self.instructionsLabel = ttk.Label(master=self.frame_right,
+                                            text= "Please Log In With Your ID and Password",
+                                            font=("Roboto Medium", 15),
+                                            background='#d1d5d8')
+        self.instructionsLabel.place(relx = 0.5, rely = 0.2, anchor='center')
+
+        self.logInLogo = ImageTk.PhotoImage(Image.open("Pictures/logo.png"))
+        self.logInLogo_Label = Label(master=self.frame_right, image=self.logInLogo, bg = '#d1d5d8')
+        self.logInLogo_Label.place(relx=0.1, rely= 0.15)    
 
 def on_closing(self, event=0):
-        self.destroy()
+        self.destroy() 
 
 app = tkinterApp()
 app.mainloop()
