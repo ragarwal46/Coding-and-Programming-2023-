@@ -11,7 +11,7 @@ from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 
 customtkinter.set_default_color_theme("blue")  # This sets the default theme of the app
-customtkinter.set_appearance_mode("light")
+customtkinter.set_appearance_mode("Light")
 
 
 def showSidebar(self, parent, controller): # The purpose of this function is to have the sidebar displayed and be easily changeable
@@ -23,15 +23,14 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         self.frame_left.grid_rowconfigure(8, minsize=20)
         self.frame_left.grid_rowconfigure(11, minsize=10)
 
+      
+
         # AAI School Logo
-        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
-        self.logo_label = Label(master=self.frame_left, image=self.logo, bg = '#d1d5d8')
-        self.logo_label.grid(row = 0, column = 0, pady = 10, padx = 10)
-        
         self.actionsLabel = customtkinter.CTkLabel(master=self.frame_left,
                                               text="Actions",
                                               text_font=("Roboto Medium", -16))
         self.actionsLabel.grid(row=1, column=0, pady=10, padx=10)
+
 
         def open_stuent_table():
             # Creating a new window (for the table) and providing credentials to the database
@@ -69,6 +68,7 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
                     e.insert(END, student[j])
                 i=i+1
 
+
         # These are all buttons located on the sidebar
         self.showHomeButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Home",
@@ -97,9 +97,11 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
                                                 command=lambda: controller.show_frame(Results))
         self.showResultsButton.grid(row=6, column=0, pady=20, padx=20, sticky="n")
 
-        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(master=self.frame_left, values=["Light", "Dark", "System"],
-                                                                       command=self.change_appearance_mode_event)
-        self.appearance_mode_optionemenu.grid(row=7, column=0, padx=20, pady=(10, 10))
+
+
+
+
+
 
 
 
@@ -135,11 +137,16 @@ class tkinterApp(tk.Tk):
             frame.grid(row = 0, column = 0, sticky ="nsew")
   
         self.show_frame(Home)
-
         
     def show_frame(self, cont):  
         frame = self.frames[cont]  
         frame.tkraise()
+    
+
+
+
+    
+
     
 
 
@@ -160,7 +167,24 @@ class Home(tk.Frame):
         self.frame_right = customtkinter.CTkFrame(master=self)
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
 
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=7, column=0, pady=20, padx=20, sticky="s")
+
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+
+        
+        self.logo_label = Label(master=self.frame_left, image=self.logo, bg= "#d1d5d8")
+        self.logo_label.grid(row = 0, column = 0, pady = 10, padx = 10)
+
+        
+
+
+
         showSidebar(self, parent, controller)
+
+        
 
 
         # ============ frame_right ============
@@ -187,6 +211,8 @@ class Home(tk.Frame):
         self.galleryImage5 = ImageTk.PhotoImage(Image.open("pic5.png"))
         self.galleryImage6 = ImageTk.PhotoImage(Image.open("pic6.png"))
         self.galleryImage7 = ImageTk.PhotoImage(Image.open("pic7.png"))
+
+        
  
         self.image_label = Label(master=self.frame_right, image=self.galleryImage1)
         self.image_label.place(relx = 0.5, rely = 0.525, anchor = 'center')
@@ -195,6 +221,20 @@ class Home(tk.Frame):
         self.nextButton.place(relx = 0.91, rely = 0.525, anchor = 'center')
         self.previousButon = customtkinter.CTkButton(master=self.frame_right, text="<", text_font=('arial', 15, 'bold'), command=self.on_back, width=25)
         self.previousButon.place(relx = 0.09, rely = 0.525, anchor = 'center')
+    
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
+        if customtkinter.get_appearance_mode =="Light":                
+            self.logo_label.config(bg = "#d1d5d8")
+        else:
+            self.logo_label.config(bg = "#60A3D9")
+    
+
+
+
+
+
+    
     
     def on_next(self):
         if self.current_image == 1:
@@ -252,6 +292,9 @@ class Home(tk.Frame):
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
 
+
+
+
 class AddStudent(tk.Frame):
      
     def __init__(self, parent, controller):
@@ -269,6 +312,18 @@ class AddStudent(tk.Frame):
 
         self.frame_right = customtkinter.CTkFrame(master=self)
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=7, column=0, pady=20, padx=20, sticky="s")
+
+        self.logo = ImageTk.PhotoImage(Image.open("logo.png"))
+
+        
+        self.logo_label = Label(master=self.frame_left, image=self.logo, bg= "#d1d5d8")
+        self.logo_label.grid(row = 0, column = 0, pady = 10, padx = 10)
 
         showSidebar(self, parent, controller)
         
@@ -358,7 +413,17 @@ class AddStudent(tk.Frame):
 
 
         self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add', command=add_student_db)
-        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')    
+        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center') 
+
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
+        if customtkinter.get_appearance_mode =="Light":                
+            self.logo_label.config(bg = "#d1d5d8")
+            self.logo_label.update_idletasks
+        else:
+            self.logo_label.config(bg = "#60A3D9")  
+            self.logo_label.update_idletasks
+ 
 
 class Event(tk.Frame):      
     def __init__(self, parent, controller):
@@ -376,6 +441,13 @@ class Event(tk.Frame):
 
         self.frame_right = customtkinter.CTkFrame(master=self)
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=7, column=0, pady=20, padx=20, sticky="s")
+
+        
 
         showSidebar(self, parent, controller)
 
@@ -568,6 +640,9 @@ class Event(tk.Frame):
 
         self.canTutorButton = customtkinter.CTkButton(master = self.frame_right, text = 'Students Available To Tutor', command=studentsAvaliableToTutor)
         self.canTutorButton.place(relx = 0.67, rely = 0.32)
+    
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
 
 
 
@@ -588,6 +663,11 @@ class Results(tk.Frame):
 
         self.frame_right = customtkinter.CTkFrame(master=self)
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+        self.optionmenu_1 = customtkinter.CTkOptionMenu(master=self.frame_left,
+                                                        values=["Light", "Dark", "System"],
+                                                        command=self.change_appearance_mode)
+        self.optionmenu_1.grid(row=7, column=0, pady=20, padx=20, sticky="s")
 
         showSidebar(self, parent, controller)
 
@@ -737,12 +817,13 @@ class Results(tk.Frame):
 
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
+    
+    def change_appearance_mode(self, new_appearance_mode):
+        customtkinter.set_appearance_mode(new_appearance_mode)
 
 def on_closing(self, event=0):
         self.destroy()
 
-def change_appearance_mode_event(self, new_appearance_mode: str):
-    customtkinter.set_appearance_mode(new_appearance_mode)
 
 app = tkinterApp()
 app.mainloop()
