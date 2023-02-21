@@ -89,7 +89,7 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         
         self.showEventButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
-                                                command=lambda: controller.show_frame(logInView)) #should be Event but for now I am trying to test the log in page
+                                                command=lambda: controller.show_frame(login)) #should be Event but for now I am trying to test the log in page
         self.showEventButton.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
 
         self.showResultsButton = customtkinter.CTkButton(master=self.frame_left,
@@ -123,7 +123,7 @@ class tkinterApp(tk.Tk):
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, AddStudent, Event, Results, studentView, logInView):
+        for F in (Home, AddStudent, Event, Results, studentView, login):
   
             frame = F(container, self)
   
@@ -131,7 +131,7 @@ class tkinterApp(tk.Tk):
   
             frame.grid(row = 0, column = 0, sticky ="nsew")
   
-        self.show_frame(Home)
+        self.show_frame(login)
 
         
     def show_frame(self, cont):  
@@ -624,7 +624,7 @@ class Results(tk.Frame):
         self.ViewResultsLabel.place(relx = 0.5, rely = 0.07, anchor='center')
 
         
-        def showTopWinner(): # This funciton finds the student with the highest number of points and displays them in an alert box
+        def showTopWinner(): # This function finds the student with the highest number of points and displays them in an alert box
             my_connect = mysql.connector.connect(
             host="localhost",
             user="root", 
@@ -794,10 +794,9 @@ class studentView(tk.Frame):
                                               font=("Roboto Medium", 20),
                                               background='#d1d5d8')
         self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
-
-        # Name Fields
-
-class logInView(tk.Frame):
+        
+        
+class login(tk.Frame):
      
     def __init__(self, parent, controller):
          
@@ -811,20 +810,68 @@ class logInView(tk.Frame):
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
         
         self.titleLabel = ttk.Label(master=self.frame_right,
-                                              text="Welcome To the Alliance Event Tracker!",
-                                              font=("Roboto Medium", 30),
+                                              text="Welcome to the Alliance Academy Student Event Tracker",
+                                              font=("Roboto Medium", 20),
                                               background='#d1d5d8')
         self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
 
         self.instructionsLabel = ttk.Label(master=self.frame_right,
-                                            text= "Please Log In With Your ID and Password",
+                                            text= "Please enter your Login ID",
                                             font=("Roboto Medium", 15),
                                             background='#d1d5d8')
         self.instructionsLabel.place(relx = 0.5, rely = 0.2, anchor='center')
 
         self.logInLogo = ImageTk.PhotoImage(Image.open("Pictures/logo.png"))
         self.logInLogo_Label = Label(master=self.frame_right, image=self.logInLogo, bg = '#d1d5d8')
-        self.logInLogo_Label.place(relx=0.1, rely= 0.15)    
+        self.logInLogo_Label.place(relx=0.1, rely= 0.15)
+
+        self.nameLabel = ttk.Label(master=self.frame_right,
+                                                text="Login ID",
+                                                font=("Roboto Medium", 8),
+                                                background='#d1d5d8')
+        self.nameLabel.place(relx = 0.305, rely = 0.3)
+
+        self.loginID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Login ID', text_color='black')
+        self.loginID.place(relx = 0.305, rely = 0.35)
+        
+        
+
+        def checkLogin(): # This function checks the ID input on the login page and displays the correct screen based on if the user is a Student or Teacher
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                my_conn_teacher = my_connect.cursor()
+                my_conn_teacher.execute("SELECT count(*) as Count FROM studentdb.teacher where teacherID=" + self.loginID.get())
+                
+                i=0 
+                for teacher in my_conn_teacher:
+                    if teacher[0] == 1:
+                        controller.show_frame(Home)
+                        return
+                    i=i+1
+                    
+                
+                my_conn_student = my_connect.cursor()
+                my_conn_student.execute("SELECT count(*) as Count FROM studentdb.student where studentid=" + self.loginID.get())
+
+                i=0 
+                for student in my_conn_student:
+                    if student[0] == 1:
+                        controller.show_frame(studentView)
+                        return
+                    i=i+1
+                mb.showwarning("Failed", "Please check your Login ID.")
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Could not login in with those credentials.")
+
+        self.submitButton = customtkinter.CTkButton(master = self.frame_right, text = 'Submit', command=checkLogin)
+        self.submitButton.place(relx = 0.38, rely = 0.5, anchor = 'center')
 
 def on_closing(self, event=0):
         self.destroy() 
