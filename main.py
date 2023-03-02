@@ -9,10 +9,10 @@ from tkinter import *
 import mysql.connector
 from tkinter import messagebox as mb
 from PIL import Image, ImageTk
+from tktooltip import ToolTip
 
 customtkinter.set_default_color_theme("blue")  # This sets the default theme of the app
 customtkinter.set_appearance_mode("light")
-
 
 def showSidebar(self, parent, controller): # The purpose of this function is to have the sidebar displayed and be easily changeable
     # ============ frame_left ============
@@ -74,30 +74,33 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
                                                 text="Home",
                                                 command=lambda: controller.show_frame(Home))
         self.showHomeButton.grid(row=2, column=0, pady=20, padx=20, sticky="n")
+        ToolTip(self.showHomeButton, msg="This button takes you back to the Home page.")
 
 
         self.viewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
         self.viewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
+        ToolTip(self.viewStudentTableButton, msg="This button launches a table to show various students.")
 
         
         self.showAddStudentButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
         self.showAddStudentButton.grid(row=4, column=0, pady=20, padx=20, sticky="n")
+        ToolTip(self.showAddStudentButton, msg="This button takes you to a page to add a new student.")
         
         self.showEventButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
                                                 command=lambda: controller.show_frame(login)) #should be Event but for now I am trying to test the log in page
         self.showEventButton.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
+        ToolTip(self.showEventButton, msg="This button takes you to a page to add events to various students.")
 
         self.showResultsButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
                                                 command=lambda: controller.show_frame(studentView)) #show_frame(Results) is the actual command. On the side for testing sutdent view page
         self.showResultsButton.grid(row=6, column=0, pady=20, padx=20, sticky="n")
-
-
+        ToolTip(self.showResultsButton, msg="This button takes you to a page to show results for the competition.")
 
 
 class tkinterApp(tk.Tk):
@@ -796,6 +799,7 @@ class studentView(tk.Frame):
         self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
         
         
+        
 class login(tk.Frame):
      
     def __init__(self, parent, controller):
@@ -833,7 +837,7 @@ class login(tk.Frame):
 
         self.loginID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Login ID', text_color='black')
         self.loginID.place(relx = 0.305, rely = 0.35)
-        
+
         
 
         def checkLogin(): # This function checks the ID input on the login page and displays the correct screen based on if the user is a Student or Teacher
