@@ -1,4 +1,4 @@
-# Coding-and-Programming-2023-
+# Coding-and-Programming-2023
 Coding and Programming 2023 for FBLA SLC
 
 This is a project for FBLA High School SLC 2023
