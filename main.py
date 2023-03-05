@@ -14,6 +14,9 @@ from tktooltip import ToolTip
 customtkinter.set_default_color_theme("blue")  # This sets the default theme of the app
 customtkinter.set_appearance_mode("light")
 
+global g_loginID
+
+
 def showSidebar(self, parent, controller): # The purpose of this function is to have the sidebar displayed and be easily changeable
     # ============ frame_left ============
 
@@ -80,27 +83,33 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         self.viewStudentTableButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="View Student Table",
                                                 command=open_stuent_table)
-        self.viewStudentTableButton.grid(row=3, column=0, pady=20, padx=20, sticky="n")
+        self.viewStudentTableButton.grid(row=2, column=0, pady=80, padx=20, sticky="n")
         ToolTip(self.viewStudentTableButton, msg="This button launches a table to show various students.")
 
         
         self.showAddStudentButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Add Student",
                                                 command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudentButton.grid(row=4, column=0, pady=20, padx=20, sticky="n")
+        self.showAddStudentButton.grid(row=2, column=0, pady=140, padx=20, sticky="n")
         ToolTip(self.showAddStudentButton, msg="This button takes you to a page to add a new student.")
         
         self.showEventButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
-                                                command=lambda: controller.show_frame(login)) #should be Event but for now I am trying to test the log in page
-        self.showEventButton.grid(row=5, column=0, pady=20, padx=20, sticky="ne")
+                                                command=lambda: controller.show_frame(Event))
+        self.showEventButton.grid(row=2, column=0, pady=200, padx=20, sticky="ne")
         ToolTip(self.showEventButton, msg="This button takes you to a page to add events to various students.")
 
         self.showResultsButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Results",
-                                                command=lambda: controller.show_frame(studentView)) #show_frame(Results) is the actual command. On the side for testing sutdent view page
-        self.showResultsButton.grid(row=6, column=0, pady=20, padx=20, sticky="n")
+                                                command=lambda: controller.show_frame(Results))
+        self.showResultsButton.grid(row=2, column=0, pady=260, padx=20, sticky="n")
         ToolTip(self.showResultsButton, msg="This button takes you to a page to show results for the competition.")
+
+        self.logoutButton = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Log Out",
+                                                command=lambda: controller.show_frame(Login))
+        self.logoutButton.grid(row=2, column=0, pady=320, padx=20, sticky="n")
+        ToolTip(self.logoutButton, msg="This button logs you out of the system.")
 
 
 class tkinterApp(tk.Tk):
@@ -126,7 +135,7 @@ class tkinterApp(tk.Tk):
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, AddStudent, Event, Results, studentView, login):
+        for F in (Home, AddStudent, Event, Results, Login):
   
             frame = F(container, self)
   
@@ -134,7 +143,7 @@ class tkinterApp(tk.Tk):
   
             frame.grid(row = 0, column = 0, sticky ="nsew")
   
-        self.show_frame(login)
+        self.show_frame(Login)
 
         
     def show_frame(self, cont):  
@@ -285,7 +294,7 @@ class AddStudent(tk.Frame):
     def __init__(self, parent, controller):
          
         tk.Frame.__init__(self, parent)
-  
+ 
         # configure grid layout (2x1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -779,28 +788,8 @@ class Results(tk.Frame):
         self.reportButton = customtkinter.CTkButton(master = self.frame_right, text = 'Generate Quarterly Report', command=showQuarterlyReport)
         self.reportButton.place(relx = 0.7, rely = 0.13)
 
-class studentView(tk.Frame):
-     
-    def __init__(self, parent, controller):
-         
-        tk.Frame.__init__(self, parent)
-  
-        # configure grid layout (2x1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
 
-        self.frame_right = customtkinter.CTkFrame(master=self)
-        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
-        
-        self.titleLabel = ttk.Label(master=self.frame_right,
-                                              text="Welcome Student",
-                                              font=("Roboto Medium", 20),
-                                              background='#d1d5d8')
-        self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
-        
-        
-        
-class login(tk.Frame):
+class Login(tk.Frame):
      
     def __init__(self, parent, controller):
          
@@ -836,9 +825,9 @@ class login(tk.Frame):
         self.nameLabel.place(relx = 0.305, rely = 0.3)
 
         self.loginID = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Login ID', text_color='black')
-        self.loginID.place(relx = 0.305, rely = 0.35)
+        self.loginID.place(relx = 0.305, rely = 0.35)     
 
-        
+        self.loginID.focus()  
 
         def checkLogin(): # This function checks the ID input on the login page and displays the correct screen based on if the user is a Student or Teacher
             my_connect = mysql.connector.connect(
@@ -852,10 +841,13 @@ class login(tk.Frame):
                 my_conn_teacher = my_connect.cursor()
                 my_conn_teacher.execute("SELECT count(*) as Count FROM studentdb.teacher where teacherID=" + self.loginID.get())
                 
+                global g_loginID 
+
                 i=0 
                 for teacher in my_conn_teacher:
                     if teacher[0] == 1:
                         controller.show_frame(Home)
+                        g_loginID = self.loginID.get()
                         return
                     i=i+1
                     
@@ -866,7 +858,8 @@ class login(tk.Frame):
                 i=0 
                 for student in my_conn_student:
                     if student[0] == 1:
-                        controller.show_frame(studentView)
+                        #controller.show_frame(studentView)
+                        g_loginID = self.loginID.get()
                         return
                     i=i+1
                 mb.showwarning("Failed", "Please check your Login ID.")
