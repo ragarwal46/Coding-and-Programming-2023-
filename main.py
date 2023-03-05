@@ -87,11 +87,11 @@ def showSidebar(self, parent, controller): # The purpose of this function is to 
         ToolTip(self.viewStudentTableButton, msg="This button launches a table to show various students.")
 
         
-        self.showAddStudentButton = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Add Student",
-                                                command=lambda: controller.show_frame(AddStudent))
-        self.showAddStudentButton.grid(row=2, column=0, pady=140, padx=20, sticky="n")
-        ToolTip(self.showAddStudentButton, msg="This button takes you to a page to add a new student.")
+        self.showStudentButton = customtkinter.CTkButton(master=self.frame_left,
+                                                text="Students",
+                                                command=lambda: controller.show_frame(Students))
+        self.showStudentButton.grid(row=2, column=0, pady=140, padx=20, sticky="n")
+        ToolTip(self.showStudentButton, msg="This button takes you to a page to add a new student.")
         
         self.showEventButton = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Assign Event",
@@ -135,7 +135,7 @@ class tkinterApp(tk.Tk):
   
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, AddStudent, Event, Results, Login):
+        for F in (Home, Students, Event, Results, Login):
   
             frame = F(container, self)
   
@@ -289,7 +289,7 @@ class Home(tk.Frame):
         self.frame_info.rowconfigure(0, weight=1)
         self.frame_info.columnconfigure(0, weight=1)
 
-class AddStudent(tk.Frame):
+class Students(tk.Frame):
      
     def __init__(self, parent, controller):
          
@@ -310,7 +310,7 @@ class AddStudent(tk.Frame):
         showSidebar(self, parent, controller)
         
         self.titleLabel = ttk.Label(master=self.frame_right,
-                                              text="Add Student",
+                                              text="Students",
                                               font=("Roboto Medium", 20),
                                               background='#d1d5d8')
         self.titleLabel.place(relx = 0.5, rely = 0.07, anchor='center')
@@ -323,40 +323,40 @@ class AddStudent(tk.Frame):
         self.nameLabel.place(relx = 0.08, rely = 0.1)
 
         self.fname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'First Name', text_color='black')
-        self.fname.place(relx = 0.08, rely = 0.16)
+        self.fname.place(relx = 0.08, rely = 0.14)
         
         self.lname = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Last Name', text_color='black')
-        self.lname.place(relx = 0.53, rely = 0.16)
+        self.lname.place(relx = 0.08, rely = 0.20)
 
         # Age Fields
         self.ageLabel = ttk.Label(master=self.frame_right,
                                               text="Age",
                                               font=("Roboto Medium", 8),
                                               background='#d1d5d8')
-        self.ageLabel.place(relx = 0.08, rely = 0.26)
+        self.ageLabel.place(relx = 0.08, rely = 0.28)
 
         self.age = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Age (Years)', text_color='black')
-        self.age.place(relx = 0.08, rely = 0.32)
+        self.age.place(relx = 0.08, rely = 0.34)
 
         # Grade fields
         self.grade = ttk.Label(master = self.frame_right, text = "Grade",
                                             font=("Roboto Medium", 8),
                                             background='#d1d5d8')
-        self.grade.place(relx = 0.08, rely = 0.42)
+        self.grade.place(relx = 0.08, rely = 0.44)
 
         gradeNum = tk.StringVar()
         
         self.gradeRadio9 = ttk.Radiobutton(master = self.frame_right, text="9th Grade", value='9', variable=gradeNum)
-        self.gradeRadio9.place(relx = 0.08, rely = 0.48)
+        self.gradeRadio9.place(relx = 0.08, rely = 0.50)
 
         self.gradeRadio10 = ttk.Radiobutton(master = self.frame_right, text="10th Grade", value='10', variable=gradeNum)
-        self.gradeRadio10.place(relx = 0.23, rely = 0.48)
+        self.gradeRadio10.place(relx = 0.23, rely = 0.50)
 
         self.gradeRadio11 = ttk.Radiobutton(master = self.frame_right, text="11th Grade", value='11', variable=gradeNum)
-        self.gradeRadio11.place(relx = 0.08, rely = 0.55)
+        self.gradeRadio11.place(relx = 0.08, rely = 0.57)
 
         self.gradeRadio12 = ttk.Radiobutton(master = self.frame_right, text="12th Grade", value='12', variable=gradeNum)
-        self.gradeRadio12.place(relx = 0.23, rely = 0.55)
+        self.gradeRadio12.place(relx = 0.23, rely = 0.57)
         
 
         # GPA fields
@@ -364,10 +364,10 @@ class AddStudent(tk.Frame):
                                             text = 'GPA (Unweighted)',
                                             font=('Roboto Medium', 8),
                                             background='#d1d5d8')
-        self.gpalabel.place(relx = 0.08, rely = 0.63)
+        self.gpalabel.place(relx = 0.08, rely = 0.65)
 
         self.gpa = customtkinter.CTkEntry(master = self.frame_right, width = 100, placeholder_text= 'GPA', text_color='black')
-        self.gpa.place(relx = 0.08, rely = 0.69)
+        self.gpa.place(relx = 0.08, rely = 0.71)
         
         
         def add_student_db(): # This function takes all the data from the inputs and then adds it to the database
@@ -396,7 +396,43 @@ class AddStudent(tk.Frame):
 
 
         self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Add', command=add_student_db)
-        self.addbutton.place(relx = 0.5, rely = 0.84, anchor = 'center')    
+        self.addbutton.place(relx = 0.17, rely = 0.84, anchor = 'center')
+
+        # Delete Fields
+        self.idLabel = ttk.Label(master=self.frame_right,
+                                                text="Student ID",
+                                                font=("Roboto Medium", 8),
+                                                background='#d1d5d8')
+        self.idLabel.place(relx = 0.66, rely = 0.1)
+
+        self.idTextField = customtkinter.CTkEntry(master=self.frame_right, width = 200, placeholder_text= 'Student ID', text_color='black')
+        self.idTextField.place(relx = 0.66, rely = 0.14)
+
+        def delete_student_db(): # This function takes all the data from the inputs and then adds it to the database
+            my_connect = mysql.connector.connect(
+            host="localhost",
+            user="root", 
+            passwd="Aai#1Database",
+            database="studentdb"
+            )
+
+            try:
+                if self.idTextField.get() == '':
+                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
+                else:
+                    #executing the sql command
+                    my_conn = my_connect.cursor()
+                    my_conn.execute("DELETE FROM eventtracker WHERE StudentID=" + self.idTextField.get())
+                    my_conn.execute("DELETE FROM student WHERE StudentID=" + self.idTextField.get())
+                    my_connect.commit()
+                    mb.showinfo("Success", "Student Deleted")
+            except:
+                my_connect.rollback()
+                mb.showerror("Failed", "Student was not Deleted")
+
+
+        self.addbutton = customtkinter.CTkButton(master = self.frame_right, text = 'Delete', command=delete_student_db)
+        self.addbutton.place(relx = 0.755, rely = 0.26, anchor = 'center')
 
 class Event(tk.Frame):      
     def __init__(self, parent, controller):
