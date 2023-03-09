@@ -417,8 +417,18 @@ class Students(tk.Frame):
             )
 
             try:
+                my_conn2 = my_connect.cursor()
+                my_conn2.execute("SELECT count(*) as Count FROM studentdb.student where studentID=" + self.idTextField.get())
+
+                i=0 
+                for student in my_conn2:
+                    if student[0] == 0:
+                        mb.showwarning("Failed", "This student does not exsist.")
+                        return
+                    i=i+1
+
                 if self.idTextField.get() == '':
-                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")
+                    mb.showwarning("Error", "Please Ensure All Fields are Filled Out")                  
                 else:
                     #executing the sql command
                     my_conn = my_connect.cursor()
@@ -795,6 +805,15 @@ class Results(tk.Frame):
 
             my_conn = my_connect.cursor()
             ReportSelection = ""
+
+            columnHeader1=Label(my_w,width=10,text='First Name',borderwidth=0, anchor='w')
+            columnHeader1.grid(row=0,column=0, sticky='w')
+            columnHeader2=Label(my_w,width=10,text='Last Name',borderwidth=0, anchor='w')
+            columnHeader2.grid(row=0,column=1, sticky='w')
+            columnHeader3=Label(my_w,width=10,text='GPA',borderwidth=0, anchor='w')
+            columnHeader3.grid(row=0,column=2, sticky='w')
+            columnHeader4=Label(my_w,width=10,text='Total Points',borderwidth=0, anchor='w')
+            columnHeader4.grid(row=0,column=3, sticky='w')
         
             if fNameVar.get() == "Show First Name":
                 ReportSelection += "s.FirstName,"
