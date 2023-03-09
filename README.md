@@ -1,7 +1,7 @@
 # Coding-and-Programming-2023
 Coding and Programming 2023 for FBLA SLC
 
-This is a project for FBLA High School SLC 2023
+This is a project for FBLA High School SLC 2023 by Rishi Desai, Rohak Agarwal, and Karnav Trivedi
 
 General Overview:
 This program allows teachers to increase student involvement within their respective schools. A secure login page has been added to ensure only teachers have access to the student management system. The teacher's view will allow them to add certain students to our database and then assign events to their students. 
